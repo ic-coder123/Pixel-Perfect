@@ -6,6 +6,9 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_onrkg"]
 radius = 62.681736
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
+radius = 174.02586
+
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1110338457 groups=["player"]]
 script = ExtResource("1_4flbx")
 
@@ -16,3 +19,10 @@ texture = ExtResource("2_onrkg")
 shape = SubResource("CircleShape2D_onrkg")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1290275261]
+
+[node name="actionable_finder" type="Area2D" parent="." unique_id=572387520]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="actionable_finder" unique_id=2064812862]
+shape = SubResource("CircleShape2D_cvnsp")

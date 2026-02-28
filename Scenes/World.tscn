@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bnf158fmkbcrl" path="res://Scenes/player.tscn" id="2_5nsto"]
 [ext_resource type="PackedScene" uid="uid://cjibebh37yi16" path="res://Scenes/checkpoint.tscn" id="3_gjpho"]
 [ext_resource type="PackedScene" uid="uid://d8c8ygtvxsif" path="res://Scenes/death_zone.tscn" id="4_p70al"]
+[ext_resource type="PackedScene" uid="uid://mox6vj6tphpa" path="res://Statue_of_power.tscn" id="5_p70al"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2dftf"]
 texture = ExtResource("1_j0p05")
@@ -152,8 +153,12 @@ scroll_offset = Vector2(154, 145)
 [node name="CharacterBody2D" parent="." unique_id=1110338457 instance=ExtResource("2_5nsto")]
 position = Vector2(583, 264)
 
-[node name="Area2D" parent="." unique_id=354447001 instance=ExtResource("3_gjpho")]
+[node name="Checkpoint1" parent="." unique_id=354447001 instance=ExtResource("3_gjpho")]
 position = Vector2(235, 443)
 
-[node name="Area2D2" parent="." unique_id=765445639 instance=ExtResource("4_p70al")]
-position = Vector2(-60, 545)
+[node name="DeathZone" parent="." unique_id=765445639 instance=ExtResource("4_p70al")]
+position = Vector2(-2064, 1445)
+scale = Vector2(100, 100)
+
+[node name="CharacterBody2D2" parent="." unique_id=1996842022 instance=ExtResource("5_p70al")]
+position = Vector2(1126, 120)

@@ -1,0 +1,4 @@
+"Statue of power": Hello... I shall give you your first ability...
+[wait time="1.0"]
+"Statue of power": [wave] double jump[/wave]
+do Main.unlock_ability("double_jump")

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://mox6vj6tphpa"]
+
+[ext_resource type="Texture2D" uid="uid://bjmypnfjkbve6" path="res://test/icon.svg" id="1_5e0nf"]
+[ext_resource type="PackedScene" uid="uid://c4mmlyyc1bht" path="res://actionable.tscn" id="2_cy61o"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7upqe"]
+radius = 229.01965
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1996842022]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=398033634]
+texture = ExtResource("1_5e0nf")
+
+[node name="actionable" parent="." unique_id=1803171064 instance=ExtResource("2_cy61o")]
+dialogue_resource = "DoubleJumpAbility"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="actionable" unique_id=97645153]
+shape = SubResource("CircleShape2D_7upqe")

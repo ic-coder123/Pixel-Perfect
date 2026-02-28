@@ -22,8 +22,12 @@ Dialogic="*uid://ds2q0uclmolvu"
 
 [dialogic]
 
-directories/dch_directory={}
-directories/dtl_directory={}
+directories/dch_directory={
+"Statue of power": "res://Statue of power.dch"
+}
+directories/dtl_directory={
+"DoubleJumpAbility": "res://DoubleJumpAbility.dtl"
+}
 layout/style_directory={}
 extensions_folder="res://addons/dialogic_additions"
 text/letter_speed=0.01
@@ -65,6 +69,8 @@ audio/channel_defaults={
 }
 }
 glossary/default_case_sensitive=true
+layout/style_list=[]
+layout/default_style="Default"
 
 [editor_plugins]
 
@@ -111,6 +117,10 @@ dialogic_default_action={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
 ]
 }
+
+[layer_names]
+
+2d_physics/layer_5="actionable"
 
 [physics]
 
