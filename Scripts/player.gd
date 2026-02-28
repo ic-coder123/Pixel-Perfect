@@ -11,6 +11,14 @@ const JUMP_BUFFER_TIME = 0.18
 
 func _ready():
 	unlocked_abilities = Main.unlocked_abilities
+	# make sure the player is in a known group so checkpoint/death zones can identify it
+	if not is_in_group("player"):
+		add_to_group("player")
+
+# helper called by death zones; uses autoload respawn helper
+func respawn() -> void:
+	Main.respawn_player(self)
+
 
 
 
