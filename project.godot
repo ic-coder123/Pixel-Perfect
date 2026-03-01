@@ -23,10 +23,10 @@ Dialogic="*uid://ds2q0uclmolvu"
 [dialogic]
 
 directories/dch_directory={
-"Statue of power": "res://Statue of power.dch"
+"Statue of power": "res://DialogueResources/Statue of power.dch"
 }
 directories/dtl_directory={
-"DoubleJumpAbility": "res://DoubleJumpAbility.dtl"
+"DoubleJumpAbility": "res://DialogueResources/Dialogue/DoubleJumpAbility.dtl"
 }
 layout/style_directory={}
 extensions_folder="res://addons/dialogic_additions"

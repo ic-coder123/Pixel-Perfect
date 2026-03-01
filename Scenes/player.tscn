@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://bnf158fmkbcrl"]
 
 [ext_resource type="Script" uid="uid://b2xymjc51mqhr" path="res://Scripts/player.gd" id="1_4flbx"]
-[ext_resource type="Texture2D" uid="uid://dmwm4wtlit3e0" path="res://icon.svg" id="2_onrkg"]
+[ext_resource type="Texture2D" uid="uid://bh5i3g2h8sxdn" path="res://Scripts/Player.png" id="2_6t5aa"]
+[ext_resource type="Texture2D" uid="uid://2k018n06i4in" path="res://Scripts/Slash1.png" id="3_6t5aa"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_onrkg"]
-radius = 62.681736
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6t5aa"]
+size = Vector2(128, 127)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
 radius = 174.02586
@@ -16,10 +17,10 @@ size = Vector2(27.5, 27)
 script = ExtResource("1_4flbx")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=908452489]
-texture = ExtResource("2_onrkg")
+texture = ExtResource("2_6t5aa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1400195309]
-shape = SubResource("CircleShape2D_onrkg")
+shape = SubResource("RectangleShape2D_6t5aa")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1290275261]
 
@@ -31,12 +32,12 @@ collision_mask = 16
 shape = SubResource("CircleShape2D_cvnsp")
 
 [node name="Sword" type="Area2D" parent="." unique_id=12981103]
-visible = false
 
 [node name="Sprite2D2" type="Sprite2D" parent="Sword" unique_id=667858124]
-position = Vector2(87, 7)
-scale = Vector2(0.1796875, 0.171875)
-texture = ExtResource("2_onrkg")
+position = Vector2(89.00001, 7.0000024)
+scale = Vector2(0.6523438, 0.6171875)
+texture = ExtResource("3_6t5aa")
+flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword" unique_id=1135008320]
 position = Vector2(87.25, 6.5)

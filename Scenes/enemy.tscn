@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://85vtydi7dquq"]
 
-[ext_resource type="Script" uid="uid://os6q3vb58x5p" path="res://enemy.gd" id="1_7k104"]
+[ext_resource type="Script" uid="uid://os6q3vb58x5p" path="res://Scripts/enemy.gd" id="1_7k104"]
 [ext_resource type="Texture2D" uid="uid://dmwm4wtlit3e0" path="res://icon.svg" id="2_4gyqm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qi2p4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1f0kj"]
+size = Vector2(20, 21)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1825732302]
 script = ExtResource("1_7k104")
@@ -16,3 +19,13 @@ shape = SubResource("RectangleShape2D_qi2p4")
 position = Vector2(10, 10.375002)
 scale = Vector2(0.15625, 0.16210939)
 texture = ExtResource("2_4gyqm")
+
+[node name="edge_detector" type="RayCast2D" parent="." unique_id=468454229]
+position = Vector2(-3, 6)
+target_position = Vector2(0, 20)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=2143186558]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1533931656]
+position = Vector2(10, 10.5)
+shape = SubResource("RectangleShape2D_1f0kj")

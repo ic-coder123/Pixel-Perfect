@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-
+@onready var edge_detector: RayCast2D = $edge_detector
 const SPEED = 100.0
 const DETECTION_RADIUS = 200.0
 var direction := -1
@@ -10,9 +10,13 @@ func _ready() -> void:
 	add_to_group("enemy")
 
 func _physics_process(delta: float) -> void:
-	# Add gravity
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+
+	# Update detector to face movement direction
+	edge_detector.position.x = abs(edge_detector.position.x) * direction
+
+	if is_on_floor() and not edge_detector.is_colliding():
+		direction *= -1
+		edge_detector.position.x = abs(edge_detector.position.x) * direction
 
 	var player = get_tree().get_first_node_in_group("player")
 	var is_chasing := false

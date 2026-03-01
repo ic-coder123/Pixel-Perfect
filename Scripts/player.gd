@@ -134,6 +134,10 @@ func process_air_state(delta: float) -> void:
 	velocity.y += get_gravity().y * delta
 	handle_horizontal_movement(delta)
 	
+	# Variable Jump Height: Cut velocity if button released early
+	if velocity.y < 0 and Input.is_action_just_released("up"):
+		velocity.y *= 0.5
+	
 	if jump_buffer_timer > 0.0:
 		if unlocked_abilities.get("wall_jump", false) and wall_coyote_timer > 0.0:
 			perform_wall_jump()
@@ -163,8 +167,10 @@ func process_dash_state(delta: float) -> void:
 	dash_timer -= delta
 
 func process_attack_state(delta: float) -> void:
+	if not is_on_floor():
+		velocity.y += get_gravity().y * delta
 	attack_timer -= delta
-	velocity.x = move_toward(velocity.x, 0, SPEED * delta * 2.0)
+	velocity.x = 0.0
 
 func handle_state_transitions() -> void:
 	match current_state:
@@ -193,14 +199,16 @@ func handle_state_transitions() -> void:
 				current_state = State.IDLE
 
 func handle_horizontal_movement(delta: float) -> void:
-	var direction := Input.get_vector("left", "right", "up", "down").x
+	# Use get_axis to prevent diagonal input (jumping) from slowing down X movement
+	var direction := Input.get_axis("left", "right")
 	
 	if direction:
 		velocity.x = direction * SPEED
 		facing_direction = direction
 		if current_state == State.IDLE: current_state = State.RUN
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
+		# High friction for precise stopping (5x faster stop)
+		velocity.x = move_toward(velocity.x, 0, SPEED * 5.0 * delta)
 		if current_state == State.RUN: current_state = State.IDLE
 
 func perform_jump():
@@ -225,16 +233,17 @@ func perform_wall_jump():
 func perform_attack() -> void:
 	current_state = State.ATTACK
 	attack_timer = 0.3 # Duration of slash
+	velocity = Vector2.ZERO
 	
 	sword_area.rotation = 0
 	sword_area.scale.x = facing_direction
 	sword_area.visible = true
-	sword_area.monitoring = true
+	sword_area.set_deferred("monitoring", true)
 	
-	if Input.is_action_pressed("up"):
-		sword_area.rotation = -PI / 2
-	elif Input.is_action_pressed("down"):
+	if Input.is_action_pressed("down"):
 		sword_area.rotation = PI / 2
+	elif Input.is_action_pressed("up"):
+		sword_area.rotation = -PI / 2
 
 func check_dash_input() -> bool:
 	return unlocked_abilities.get("dash", false) and Input.is_action_just_pressed("dash")
