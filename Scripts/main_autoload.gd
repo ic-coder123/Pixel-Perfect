@@ -3,7 +3,7 @@ extends Node
 var unlocked_abilities = {
 	"double_jump": false,
 	"dash": false,
-	"wall_jump": false
+	"wall_jump": true
 }
 
 func unlock_ability(ability_name: String) -> void:
