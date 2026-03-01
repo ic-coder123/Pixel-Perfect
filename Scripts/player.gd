@@ -3,6 +3,7 @@ extends CharacterBody2D
 var unlocked_abilities = {}
 
 @onready var actionable_finder: Area2D = $actionable_finder
+@onready var sword_area: Area2D = $Sword
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
@@ -22,14 +23,36 @@ func _ready():
 	if not is_in_group("player"):
 		add_to_group("player")
 
+func _on_sword_hit(body: Node) -> void:
+	if body == self: return
+
+	# Pogo mechanic: Bounce up if attacking down on an enemy
+	if current_state == State.ATTACK and is_equal_approx(sword_area.rotation, PI / 2):
+		if body.is_in_group("enemy") or body.has_method("take_damage"):
+			velocity.y = JUMP_VELOCITY
+			current_state = State.AIR
+			sword_area.monitoring = false
+			sword_area.visible = false
+			double_jump_used = false
+
+	if body.has_method("take_damage"):
+		body.take_damage(10)
+	elif body.is_in_group("enemy"):
+		body.queue_free()
+
 # helper called by death zones; uses autoload respawn helper
 func respawn() -> void:
 	Main.respawn_player(self)
 
 # --- STATE MACHINE ---
-enum State { IDLE, RUN, AIR, WALL_SLIDE, DASH }
+
+enum State { IDLE, RUN, AIR, WALL_SLIDE, DASH, ATTACK }
 var current_state = State.IDLE
 
+var facing_direction := 1.0
+var attack_timer := 0.0
+
+var _was_attack_pressed := false
 
 
 var coyote_timer := 0.0
@@ -39,7 +62,7 @@ var jump_buffer_timer := 0.0
 var double_jump_used := false
 var dash_timer := 0.0
 
-# cached wall normal during wall contact (points away from wall)
+# cached wall normal during wall contact 
 var last_wall_normal := Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
@@ -56,6 +79,8 @@ func _physics_process(delta: float) -> void:
 			process_wall_slide_state(delta)
 		State.DASH:
 			process_dash_state(delta)
+		State.ATTACK:
+			process_attack_state(delta)
 	
 	# 3. Physics Step
 	move_and_slide()
@@ -85,6 +110,13 @@ func update_timers_and_input(delta: float) -> void:
 			wall_coyote_timer = WALL_COYOTE_TIME
 	else:
 		wall_coyote_timer = max(wall_coyote_timer - delta, 0.0)
+	
+	
+	var attack_pressed := Input.is_action_pressed("attack")
+	if attack_pressed and not _was_attack_pressed:
+		if current_state != State.ATTACK and current_state != State.DASH and current_state != State.WALL_SLIDE:
+			perform_attack()
+	_was_attack_pressed = attack_pressed
 
 func process_ground_state(delta: float) -> void:
 	handle_horizontal_movement(delta)
@@ -127,6 +159,10 @@ func process_wall_slide_state(delta: float) -> void:
 func process_dash_state(delta: float) -> void:
 	dash_timer -= delta
 
+func process_attack_state(delta: float) -> void:
+	attack_timer -= delta
+	velocity.x = move_toward(velocity.x, 0, SPEED * delta * 2.0)
+
 func handle_state_transitions() -> void:
 	match current_state:
 		State.IDLE, State.RUN:
@@ -147,11 +183,18 @@ func handle_state_transitions() -> void:
 			if dash_timer <= 0.0:
 				current_state = State.IDLE if is_on_floor() else State.AIR
 				velocity.x = move_toward(velocity.x, 0, SPEED * 0.1)
+		State.ATTACK:
+			if attack_timer <= 0.0:
+				sword_area.monitoring = false
+				sword_area.visible = false
+				current_state = State.IDLE
 
 func handle_horizontal_movement(delta: float) -> void:
-	var direction := Input.get_axis("left", "right")
+	var direction := Input.get_vector("left", "right", "up", "down").x
+	
 	if direction:
 		velocity.x = direction * SPEED
+		facing_direction = direction
 		if current_state == State.IDLE: current_state = State.RUN
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
@@ -175,6 +218,20 @@ func perform_wall_jump():
 	jump_buffer_timer = 0.0
 	wall_coyote_timer = 0.0
 	current_state = State.AIR
+
+func perform_attack() -> void:
+	current_state = State.ATTACK
+	attack_timer = 0.3 # Duration of slash
+	
+	sword_area.rotation = 0
+	sword_area.scale.x = facing_direction
+	sword_area.visible = true
+	sword_area.monitoring = true
+	
+	if Input.is_action_pressed("up"):
+		sword_area.rotation = -PI / 2
+	elif Input.is_action_pressed("down"):
+		sword_area.rotation = PI / 2
 
 func check_dash_input() -> bool:
 	return unlocked_abilities.get("dash", false) and Input.is_action_just_pressed("dash")
