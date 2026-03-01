@@ -22,6 +22,9 @@ func _ready():
 	# make sure the player is in a known group so checkpoint/death zones can identify it
 	if not is_in_group("player"):
 		add_to_group("player")
+	
+	sword_area.monitoring = false
+	sword_area.visible = false
 
 func _on_sword_hit(body: Node) -> void:
 	if body == self: return
@@ -31,7 +34,7 @@ func _on_sword_hit(body: Node) -> void:
 		if body.is_in_group("enemy") or body.has_method("take_damage"):
 			velocity.y = JUMP_VELOCITY
 			current_state = State.AIR
-			sword_area.monitoring = false
+			sword_area.set_deferred("monitoring", false)
 			sword_area.visible = false
 			double_jump_used = false
 
@@ -185,7 +188,7 @@ func handle_state_transitions() -> void:
 				velocity.x = move_toward(velocity.x, 0, SPEED * 0.1)
 		State.ATTACK:
 			if attack_timer <= 0.0:
-				sword_area.monitoring = false
+				sword_area.set_deferred("monitoring", false)
 				sword_area.visible = false
 				current_state = State.IDLE
 
