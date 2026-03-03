@@ -21,8 +21,8 @@ scale = Vector2(0.15625, 0.16210939)
 texture = ExtResource("2_4gyqm")
 
 [node name="edge_detector" type="RayCast2D" parent="." unique_id=468454229]
-position = Vector2(-7, 0)
-target_position = Vector2(0, 20)
+position = Vector2(10, 1)
+target_position = Vector2(0, 27)
 collide_with_areas = true
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=2143186558]
@@ -31,3 +31,5 @@ collide_with_areas = true
 position = Vector2(10.000001, 10.000001)
 scale = Vector2(1.03, 1.03)
 shape = SubResource("RectangleShape2D_1f0kj")
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
