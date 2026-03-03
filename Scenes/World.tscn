@@ -164,6 +164,6 @@ scale = Vector2(100, 100)
 [node name="Statue_Of_Powe_Double_Jump" parent="." unique_id=1996842022 instance=ExtResource("5_p70al")]
 position = Vector2(1126, 120)
 
-[node name="CharacterBody2D3" parent="." unique_id=1825732302 instance=ExtResource("6_45d1s")]
-position = Vector2(-230, -379)
+[node name="Enemy1" parent="." unique_id=1825732302 instance=ExtResource("6_45d1s")]
+position = Vector2(-223, -355)
 scale = Vector2(9, 9)

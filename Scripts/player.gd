@@ -1,7 +1,9 @@
 extends CharacterBody2D
 
 var unlocked_abilities = {}
-
+var health := 100
+ 
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var actionable_finder: Area2D = $actionable_finder
 @onready var sword_area: Area2D = $Sword
 
@@ -76,12 +78,17 @@ func _physics_process(delta: float) -> void:
 	match current_state:
 		State.IDLE, State.RUN:
 			process_ground_state(delta)
+			animated_sprite.play("IDLE")
+			
 		State.AIR:
 			process_air_state(delta)
 		State.WALL_SLIDE:
 			process_wall_slide_state(delta)
 		State.DASH:
 			process_dash_state(delta)
+			animated_sprite.play("DASH")
+			animated_sprite.flip_h = facing_direction < 0
+				
 		State.ATTACK:
 			process_attack_state(delta)
 	
@@ -90,6 +97,12 @@ func _physics_process(delta: float) -> void:
 	
 	# 4. Transitions
 	handle_state_transitions()
+
+func take_damage(amount: int) -> void:
+	health -= amount
+	print("Player took damage! Health: ", health)
+	if health <= 0:
+		respawn()
 
 func update_timers_and_input(delta: float) -> void:
 	# Jump Buffer
@@ -173,6 +186,9 @@ func process_attack_state(delta: float) -> void:
 	velocity.x = 0.0
 
 func handle_state_transitions() -> void:
+
+	if not current_state == State.DASH:
+		animated_sprite.flip_h = facing_direction < 0
 	match current_state:
 		State.IDLE, State.RUN:
 			if not is_on_floor():
@@ -249,9 +265,9 @@ func check_dash_input() -> bool:
 	return unlocked_abilities.get("dash", false) and Input.is_action_just_pressed("dash")
 
 func start_dash():
-	var dash_dir = 1
-	if velocity.x < 0: dash_dir = -1
-	elif velocity.x == 0: dash_dir = 1
+	var dash_dir = facing_direction
+	if velocity.x != 0:
+		dash_dir = sign(velocity.x)
 	velocity.x = SPEED * dash_dir * 2
 	dash_timer = 0.2
 	current_state = State.DASH
