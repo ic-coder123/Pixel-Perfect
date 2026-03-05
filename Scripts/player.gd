@@ -24,7 +24,7 @@ func _ready():
 	# make sure the player is in a known group so checkpoint/death zones can identify it
 	if not is_in_group("player"):
 		add_to_group("player")
-	
+	health = 100
 	sword_area.monitoring = false
 	sword_area.visible = false
 
