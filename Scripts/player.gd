@@ -66,24 +66,39 @@ var jump_buffer_timer := 0.0
 
 var double_jump_used := false
 var dash_timer := 0.0
+var active_jump_tween: Tween
 
 # cached wall normal during wall contact 
 var last_wall_normal := Vector2.ZERO
 
+var was_in_air := false
+
 func _physics_process(delta: float) -> void:
 	# 1. Update Global Timers & Inputs
 	update_timers_and_input(delta)
-	
+
+	if is_on_floor() and was_in_air:
+		apply_landing_squash()
+
+	was_in_air =  not is_on_floor()
 	# 2. State Logic
 	match current_state:
 		State.IDLE, State.RUN:
 			process_ground_state(delta)
-			animated_sprite.play("IDLE")
+			if current_state == State.RUN:
+				animated_sprite.play("RUN")
+			else:
+				animated_sprite.play("IDLE")
 			
 		State.AIR:
 			process_air_state(delta)
+			if velocity.y < 0:
+				animated_sprite.play("JUMP")
+			else:
+				animated_sprite.play("FALL")
 		State.WALL_SLIDE:
 			process_wall_slide_state(delta)
+			animated_sprite.play("WALL_SLIDE")
 		State.DASH:
 			process_dash_state(delta)
 			animated_sprite.play("DASH")
@@ -97,6 +112,13 @@ func _physics_process(delta: float) -> void:
 	
 	# 4. Transitions
 	handle_state_transitions()
+
+func apply_landing_squash():
+	var land_tween = create_tween()
+	# Squash down (Wide and Short)
+	land_tween.tween_property(animated_sprite, "scale", Vector2(4.3, 3.7), 0.1).set_trans(Tween.TRANS_SINE)
+	# Snap back
+	land_tween.tween_property(animated_sprite, "scale", Vector2(4.0, 4), 0.1).set_trans(Tween.TRANS_SINE)
 
 func take_damage(amount: int) -> void:
 	health -= amount
@@ -232,6 +254,21 @@ func perform_jump():
 	coyote_timer = 0.0
 	jump_buffer_timer = 0.0
 	current_state = State.AIR
+	
+	# 1. Reset scale to normal first so the effect doesn't "stack"
+	animated_sprite.scale = Vector2(4,4)
+	
+	# 2. Create the tween
+	var size_tween = create_tween()
+	
+	# 3. Stretch UP (Skinny and Tall) - 0.1 seconds
+	size_tween.tween_property(animated_sprite, "scale", Vector2(3.8, 4.2), 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	
+	# 4. Snap back to Normal - 0.1 seconds 
+	size_tween.tween_property(animated_sprite, "scale", Vector2(4,4), 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	
+
+
 
 func perform_double_jump():
 	velocity.y = JUMP_VELOCITY
@@ -250,6 +287,7 @@ func perform_attack() -> void:
 	current_state = State.ATTACK
 	attack_timer = 0.3 # Duration of slash
 	velocity = Vector2.ZERO
+	animated_sprite.play("ATTACK")
 	
 	sword_area.rotation = 0
 	sword_area.scale.x = facing_direction

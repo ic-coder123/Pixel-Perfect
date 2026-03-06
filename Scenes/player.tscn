@@ -20,22 +20,6 @@ region = Rect2(256, 0, 128, 128)
 atlas = ExtResource("2_vgqql")
 region = Rect2(0, 128, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8erm5"]
-atlas = ExtResource("2_vgqql")
-region = Rect2(128, 128, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_f1ek2"]
-atlas = ExtResource("2_vgqql")
-region = Rect2(256, 128, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tx1dd"]
-atlas = ExtResource("2_vgqql")
-region = Rect2(0, 256, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gymyn"]
-atlas = ExtResource("2_vgqql")
-region = Rect2(128, 256, 128, 128)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_6t5aa"]
 atlas = ExtResource("2_vgqql")
 region = Rect2(0, 0, 128, 128)
@@ -54,22 +38,10 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3smsa")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8erm5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_f1ek2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tx1dd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gymyn")
 }],
 "loop": true,
 "name": &"DASH",
-"speed": 20.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -80,7 +52,13 @@ animations = [{
 "speed": 20.0
 }]
 
+[sub_resource type="Animation" id="Animation_6t5aa"]
+resource_name = "JUMP"
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fkybt"]
+_data = {
+&"JUMP": SubResource("Animation_6t5aa")
+}
 
 [sub_resource type="Animation" id="Animation_fd4e3"]
 resource_name = "Dash"
@@ -100,15 +78,15 @@ radius = 174.02586
 size = Vector2(27.5, 27)
 
 [node name="CharacterBody2D2" type="CharacterBody2D" unique_id=1110338457 groups=["player"]]
-position = Vector2(0, -1)
 script = ExtResource("1_4flbx")
+metadata/_edit_vertical_guides_ = [-2351.0, -2230.0]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1132688070]
 texture_filter = 1
 position = Vector2(-2, 2)
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_ukyrk")
-animation = &"DASH"
+animation = &"IDLE"
 autoplay = "IDLE"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D" unique_id=1973843841]

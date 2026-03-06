@@ -162,8 +162,10 @@ position = Vector2(-2064, 1445)
 scale = Vector2(100, 100)
 
 [node name="Statue_Of_Powe_Double_Jump" parent="." unique_id=1996842022 instance=ExtResource("5_p70al")]
+texture_filter = 1
 position = Vector2(1126, 120)
 
 [node name="Enemy1" parent="." unique_id=1825732302 instance=ExtResource("6_45d1s")]
-position = Vector2(-223, -355)
-scale = Vector2(9, 9)
+texture_filter = 1
+position = Vector2(-248, -278)
+scale = Vector2(5.5, 5.5)
