@@ -5,7 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://cjibebh37yi16" path="res://Scenes/checkpoint.tscn" id="3_gjpho"]
 [ext_resource type="PackedScene" uid="uid://d8c8ygtvxsif" path="res://Scenes/death_zone.tscn" id="4_p70al"]
 [ext_resource type="PackedScene" uid="uid://mox6vj6tphpa" path="res://Scenes/Statue_of_power.tscn" id="5_p70al"]
-[ext_resource type="PackedScene" uid="uid://85vtydi7dquq" path="res://Scenes/enemy.tscn" id="6_45d1s"]
+[ext_resource type="PackedScene" uid="uid://85vtydi7dquq" path="res://Scenes/starter-enemy.tscn" id="6_45d1s"]
+[ext_resource type="PackedScene" uid="uid://d0m20hty11ccv" path="res://starter-boss.tscn" id="7_y7y61"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2dftf"]
 texture = ExtResource("1_j0p05")
@@ -169,3 +170,6 @@ position = Vector2(1126, 120)
 texture_filter = 1
 position = Vector2(-248, -278)
 scale = Vector2(5.5, 5.5)
+
+[node name="AnimatedSprite2D" parent="." unique_id=486523224 instance=ExtResource("7_y7y61")]
+position = Vector2(-562, -260)

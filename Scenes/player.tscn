@@ -101,6 +101,9 @@ position = Vector2(-2, -3)
 shape = SubResource("RectangleShape2D_6t5aa")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1290275261]
+offset = Vector2(2, 2)
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
 
 [node name="actionable_finder" type="Area2D" parent="." unique_id=572387520]
 collision_layer = 0

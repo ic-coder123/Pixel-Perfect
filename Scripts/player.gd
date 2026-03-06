@@ -85,20 +85,16 @@ func _physics_process(delta: float) -> void:
 	match current_state:
 		State.IDLE, State.RUN:
 			process_ground_state(delta)
-			if current_state == State.RUN:
-				animated_sprite.play("RUN")
-			else:
-				animated_sprite.play("IDLE")
+			animated_sprite.play("IDLE")
+			animated_sprite.flip_h = facing_direction < 0
+
 			
 		State.AIR:
 			process_air_state(delta)
-			if velocity.y < 0:
-				animated_sprite.play("JUMP")
-			else:
-				animated_sprite.play("FALL")
+	
 		State.WALL_SLIDE:
 			process_wall_slide_state(delta)
-			animated_sprite.play("WALL_SLIDE")
+	
 		State.DASH:
 			process_dash_state(delta)
 			animated_sprite.play("DASH")
@@ -290,7 +286,9 @@ func perform_attack() -> void:
 	animated_sprite.play("ATTACK")
 	
 	sword_area.rotation = 0
-	sword_area.scale.x = facing_direction
+	# For vertical attacks, we don't want to flip the sword area based on facing direction.
+	# So we reset scale and only apply facing_direction for horizontal slashes.
+	sword_area.scale.x = 1.0
 	sword_area.visible = true
 	sword_area.set_deferred("monitoring", true)
 	
@@ -298,6 +296,8 @@ func perform_attack() -> void:
 		sword_area.rotation = PI / 2
 	elif Input.is_action_pressed("up"):
 		sword_area.rotation = -PI / 2
+	else: # Horizontal attack
+		sword_area.scale.x = facing_direction
 
 func check_dash_input() -> bool:
 	return unlocked_abilities.get("dash", false) and Input.is_action_just_pressed("dash")

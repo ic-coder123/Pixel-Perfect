@@ -9,6 +9,7 @@
 size = Vector2(20.51314, 21.034313)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1825732302]
+position = Vector2(-1, -1)
 script = ExtResource("1_7k104")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=259559101]
