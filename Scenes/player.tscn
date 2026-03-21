@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b2xymjc51mqhr" path="res://Scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Texture2D" uid="uid://ifwnnhplrf8" path="res://Scripts/PlayerDashAnim.png" id="2_vgqql"]
 [ext_resource type="Texture2D" uid="uid://2k018n06i4in" path="res://Scripts/Slash1.png" id="3_6t5aa"]
+[ext_resource type="PackedScene" uid="uid://gki6owuvxby3" path="res://Scenes/keybinder.tscn" id="4_vgqql"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vgqql"]
 atlas = ExtResource("2_vgqql")
@@ -123,5 +124,11 @@ flip_h = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword" unique_id=1135008320]
 position = Vector2(87.25, 6.5)
 shape = SubResource("RectangleShape2D_cvnsp")
+
+[node name="Control" parent="." unique_id=965454374 instance=ExtResource("4_vgqql")]
+offset_left = -478.0
+offset_top = -124.0
+offset_right = -478.0
+offset_bottom = -124.0
 
 [connection signal="body_entered" from="Sword" to="." method="_on_sword_hit"]

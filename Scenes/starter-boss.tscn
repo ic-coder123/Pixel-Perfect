@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d0m20hty11ccv"]
 
 [ext_resource type="Texture2D" uid="uid://dmwm4wtlit3e0" path="res://icon.svg" id="1_ck1r3"]
-[ext_resource type="Script" uid="uid://b4bmqiatc7hud" path="res://starter-boss.gd" id="2_m7j76"]
+[ext_resource type="Script" uid="uid://b4bmqiatc7hud" path="res://Scripts/starter-boss.gd" id="2_m7j76"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_smlol"]
 animations = [{
@@ -23,6 +23,7 @@ animation = &"IDLE"
 autoplay = "IDLE"
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=261988766]
-position = Vector2(0, 64)
+position = Vector2(0, 41)
+rotation = 0.017096136
 scale = Vector2(10, 10)
 target_position = Vector2(-77.2, 0.4000001)

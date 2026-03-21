@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://cff3pxd2njwfg"]
+
+[ext_resource type="Texture2D" uid="uid://vd536nncs4to" path="res://Scripts/Particle.png" id="1_gj23w"]
+[ext_resource type="Script" uid="uid://crmnw3ldr3xev" path="res://addons/drag_and_drop/scripts/draggable.gd" id="2_t0j6t"]
+[ext_resource type="Script" uid="uid://djdmnemxrx7bg" path="res://addons/drag_and_drop/resources/draggable_types/draggable_type.gd" id="3_00qys"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wkvnt"]
+size = Vector2(199.99997, 199.99997)
+
+[sub_resource type="Resource" id="Resource_vxumb"]
+script = ExtResource("3_00qys")
+
+[node name="Area2D" type="Area2D" unique_id=895496673]
+position = Vector2(31, 25)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1604323941]
+scale = Vector2(0.1, 0.1)
+shape = SubResource("RectangleShape2D_wkvnt")
+
+[node name="Draggable" type="Node" parent="." unique_id=1720404892]
+script = ExtResource("2_t0j6t")
+type = SubResource("Resource_vxumb")
+metadata/_custom_type_script = "uid://crmnw3ldr3xev"
+
+[node name="SpeedCharm" type="Sprite2D" parent="." unique_id=350018290]
+scale = Vector2(10, 10)
+texture = ExtResource("1_gj23w")

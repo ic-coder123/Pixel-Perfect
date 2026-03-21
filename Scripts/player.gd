@@ -40,6 +40,9 @@ func _on_sword_hit(body: Node) -> void:
 			sword_area.visible = false
 			double_jump_used = false
 
+
+
+
 	if body.has_method("take_damage"):
 		body.take_damage(10)
 	elif body.is_in_group("enemy"):

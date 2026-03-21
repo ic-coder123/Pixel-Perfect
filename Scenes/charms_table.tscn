@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://6shnr1kvva3b"]
+
+[ext_resource type="Script" uid="uid://nj1hdjl1vob2" path="res://addons/drag_and_drop/scripts/drop_zone.gd" id="1_qji5m"]
+[ext_resource type="Script" uid="uid://b5wqxyc42r5u" path="res://addons/drag_and_drop/resources/drop_behaviors/drop_behavior_reject.gd" id="2_yt322"]
+[ext_resource type="Script" uid="uid://djdmnemxrx7bg" path="res://addons/drag_and_drop/resources/draggable_types/draggable_type.gd" id="3_tbxrr"]
+[ext_resource type="PackedScene" uid="uid://cff3pxd2njwfg" path="res://Scenes/speed_charm.tscn" id="4_tpv3o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_njbpl"]
+size = Vector2(68, 55)
+
+[sub_resource type="Resource" id="Resource_rplv0"]
+script = ExtResource("2_yt322")
+
+[sub_resource type="Resource" id="Resource_ecpot"]
+script = ExtResource("3_tbxrr")
+
+[node name="Node2D" type="Node2D" unique_id=1435768027]
+
+[node name="Area2D" type="Area2D" parent="." unique_id=331716843]
+position = Vector2(46, 88)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1111023035]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_njbpl")
+
+[node name="DropZone" type="Node2D" parent="Area2D" unique_id=565015287 node_paths=PackedStringArray("attach_spot")]
+position = Vector2(0, 1)
+script = ExtResource("1_qji5m")
+attach_spot = NodePath("..")
+drop_behavior = SubResource("Resource_rplv0")
+accepted_draggable_types = Array[ExtResource("3_tbxrr")]([SubResource("Resource_ecpot")])
+metadata/_custom_type_script = "uid://nj1hdjl1vob2"
+
+[node name="Marker2D" type="Marker2D" parent="Area2D/DropZone" unique_id=2125228845]
+position = Vector2(-27, -21)
+
+[node name="Marker2D2" type="Marker2D" parent="Area2D/DropZone" unique_id=2001628234]
+position = Vector2(24, -21)
+
+[node name="Area2D2" parent="." unique_id=895496673 instance=ExtResource("4_tpv3o")]

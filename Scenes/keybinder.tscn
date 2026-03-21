@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://gki6owuvxby3"]
+
+[ext_resource type="Script" uid="uid://3j2ly0rlc6a" path="res://Scripts/keybinder.gd" id="1_cm1sw"]
+[ext_resource type="Script" uid="uid://67bld8gx8bfg" path="res://Scripts/keybinder_buttons.gd" id="2_ptycu"]
+
+[node name="Control" type="Control" unique_id=965454374]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cm1sw")
+
+[node name="up_button" type="Button" parent="." unique_id=16635555]
+layout_mode = 0
+offset_left = 143.0
+offset_top = 128.0
+offset_right = 225.0
+offset_bottom = 163.0
+text = "Up"
+script = ExtResource("2_ptycu")
+input_id = "right"
