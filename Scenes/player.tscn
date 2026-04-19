@@ -126,6 +126,7 @@ position = Vector2(87.25, 6.5)
 shape = SubResource("RectangleShape2D_cvnsp")
 
 [node name="Control" parent="." unique_id=965454374 instance=ExtResource("4_vgqql")]
+visible = false
 offset_left = -478.0
 offset_top = -124.0
 offset_right = -478.0

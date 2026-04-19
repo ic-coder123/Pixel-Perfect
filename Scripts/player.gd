@@ -2,7 +2,9 @@ extends CharacterBody2D
 
 var unlocked_abilities = {}
 var health := 100
- 
+
+@onready var keybinder: Control = $Control
+
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var actionable_finder: Area2D = $actionable_finder
 @onready var sword_area: Area2D = $Sword
@@ -27,6 +29,7 @@ func _ready():
 	health = 100
 	sword_area.monitoring = false
 	sword_area.visible = false
+	keybinder.visible = false
 
 func _on_sword_hit(body: Node) -> void:
 	if body == self: return
@@ -111,6 +114,9 @@ func _physics_process(delta: float) -> void:
 	
 	# 4. Transitions
 	handle_state_transitions()
+
+
+
 
 func apply_landing_squash():
 	var land_tween = create_tween()
@@ -322,3 +328,6 @@ func _process(_delta):
 			# Trigger the dialogue
 			actionables[0].action()
 			return
+
+	if Input.is_action_just_pressed("ui_cancel"):
+		keybinder.visible = !keybinder.visible
