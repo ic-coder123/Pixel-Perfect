@@ -12,11 +12,35 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_cm1sw")
 
+[node name="VBoxContainer2" type="VBoxContainer" parent="." unique_id=1021792265]
+layout_mode = 0
+offset_left = 672.0
+offset_top = 35.0
+offset_right = 866.0
+offset_bottom = 169.0
+
+[node name="default_button" type="Button" parent="." unique_id=359717275]
+layout_mode = 0
+offset_left = 485.0
+offset_top = 266.0
+offset_right = 597.0
+offset_bottom = 301.0
+text = "Set to default
+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=910569201]
+layout_mode = 0
+offset_left = 164.0
+offset_top = 35.0
+offset_right = 339.0
+offset_bottom = 388.0
+
 [node name="up_button" type="Button" parent="." unique_id=16635555 node_paths=PackedStringArray("button_name")]
 layout_mode = 0
-offset_left = 516.0
-offset_right = 598.0
-offset_bottom = 35.0
+offset_left = 164.0
+offset_top = 35.0
+offset_right = 339.0
+offset_bottom = 66.0
 text = "Up"
 script = ExtResource("2_ptycu")
 input_id = "up"
@@ -32,10 +56,10 @@ text = "Jump"
 
 [node name="down_button" type="Button" parent="." unique_id=1947969420 node_paths=PackedStringArray("button_name")]
 layout_mode = 0
-offset_left = 516.0
-offset_top = 613.0
-offset_right = 598.0
-offset_bottom = 648.0
+offset_left = 164.0
+offset_top = 70.0
+offset_right = 339.0
+offset_bottom = 101.0
 text = "Down"
 script = ExtResource("2_ptycu")
 input_id = "down"
@@ -51,10 +75,10 @@ text = "Down"
 
 [node name="right_button" type="Button" parent="." unique_id=233400678 node_paths=PackedStringArray("button_name")]
 layout_mode = 0
-offset_left = 1058.0
-offset_top = 297.0
-offset_right = 1140.0
-offset_bottom = 332.0
+offset_left = 164.0
+offset_top = 105.0
+offset_right = 339.0
+offset_bottom = 136.0
 text = "Right"
 script = ExtResource("2_ptycu")
 input_id = "right"
@@ -70,10 +94,10 @@ text = "Right"
 
 [node name="left_button" type="Button" parent="." unique_id=863862035 node_paths=PackedStringArray("button_name")]
 layout_mode = 0
-offset_left = 87.0
-offset_top = 297.0
-offset_right = 169.0
-offset_bottom = 332.0
+offset_left = 164.0
+offset_top = 140.0
+offset_right = 339.0
+offset_bottom = 171.0
 text = "Left"
 script = ExtResource("2_ptycu")
 input_id = "left"
@@ -89,10 +113,10 @@ text = "Left"
 
 [node name="dash_button" type="Button" parent="." unique_id=412713304 node_paths=PackedStringArray("button_name")]
 layout_mode = 0
-offset_left = 605.0
-offset_top = 431.0
-offset_right = 687.0
-offset_bottom = 466.0
+offset_left = 672.0
+offset_top = 35.0
+offset_right = 866.0
+offset_bottom = 66.0
 text = "Z"
 script = ExtResource("2_ptycu")
 input_id = "dash"
@@ -108,10 +132,10 @@ text = "Dash"
 
 [node name="attack_button" type="Button" parent="." unique_id=1168623525 node_paths=PackedStringArray("button_name")]
 layout_mode = 0
-offset_left = 461.0
-offset_top = 293.0
-offset_right = 543.0
-offset_bottom = 328.0
+offset_left = 672.0
+offset_top = 70.0
+offset_right = 866.0
+offset_bottom = 101.0
 text = "X"
 script = ExtResource("2_ptycu")
 input_id = "attack"

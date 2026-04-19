@@ -2,7 +2,7 @@ extends Control
 
 var is_accepting_input = false
 
-
+@onready var default_button: Button = $default_button
 
 var updating_key = ""
 var updating_button: Button = null
@@ -16,6 +16,21 @@ func _ready() -> void:
 			var target_button = child.button_name if child.button_name else child
 			_update_button_text(target_button, child.input_id)
 			child.pressed.connect(_on_button_pressed.bind(child))
+	
+	if default_button:
+		default_button.pressed.connect(_on_default_button_pressed)
+
+func _on_default_button_pressed() -> void:
+	is_accepting_input = false
+	updating_key = ""
+	updating_button = null
+	
+	InputMap.load_from_project_settings()
+	for child in get_children():
+		if "input_id" in child:
+			var target_button = child.button_name if child.button_name else child
+			_update_button_text(target_button, child.input_id)
+	#Main.save_input_data()
 
 func _on_button_pressed(button: Button) -> void:
 	is_accepting_input = true

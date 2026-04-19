@@ -21,7 +21,7 @@ var last_checkpoint : Vector2 = Vector2.ZERO
 func _ready():
 	# ensure the start position matches the first call to set_checkpoint
 	last_checkpoint = start_position
-	#load_input_data()
+	load_input_data()
 
 func set_checkpoint(pos : Vector2) -> void:
 	last_checkpoint = pos
@@ -44,12 +44,12 @@ func save_input_data() -> void:
 		config.set_value("input", action, events)
 	config.save(INPUT_SETTINGS_PATH)
 
-#func load_input_data() -> void:
-#	var config = ConfigFile.new()
-#	if config.load(INPUT_SETTINGS_PATH) == OK:
-#		for action in config.get_section_keys("input"):
-#			if InputMap.has_action(action):
-#				InputMap.action_erase_events(action)
-#				var events = config.get_value("input", action)
-#				for event in events:
-#					InputMap.action_add_event(action, event)
+func load_input_data() -> void:
+	var config = ConfigFile.new()
+	if config.load(INPUT_SETTINGS_PATH) == OK:
+		for action in config.get_section_keys("input"):
+			if InputMap.has_action(action):
+				InputMap.action_erase_events(action)
+				var events = config.get_value("input", action)
+				for event in events:
+					InputMap.action_add_event(action, event)
