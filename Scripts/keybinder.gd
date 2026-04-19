@@ -2,6 +2,8 @@ extends Control
 
 var is_accepting_input = false
 
+
+
 var updating_key = ""
 var updating_button: Button = null
 
@@ -25,9 +27,22 @@ func _on_button_pressed(button: Button) -> void:
 
 func _input(event: InputEvent) -> void:
 	if is_accepting_input:
+		print(InputMap.get_actions())
 		if (event is InputEventKey or event is InputEventMouseButton) and event.pressed :
+			# Check for conflicts with other actions
+			for action in InputMap.get_actions():
+				if action != updating_key and InputMap.action_has_event(action, event):
+					# Conflict detected: cancel the keybind request
+					_update_button_text(updating_button, updating_key)
+					is_accepting_input = false
+					updating_key = ""
+					updating_button = null
+					get_viewport().set_input_as_handled()
+					return
+
 			InputMap.action_erase_events(updating_key)
 			InputMap.action_add_event(updating_key, event)
+			#Main.save_input_data()
 			
 			_update_button_text(updating_button, updating_key)
 			
