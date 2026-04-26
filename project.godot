@@ -24,10 +24,13 @@ Dialogic="*uid://ds2q0uclmolvu"
 [dialogic]
 
 directories/dch_directory={
-"Statue of power": "res://DialogueResources/Characters/Statue of power.dch"
+"Guide": "res://Guide.dch",
+"Statue of power": "res://DialogueResources/Characters/Statue of power.dch",
+"You": "res://DialogueResources/Dialogue/You.dch"
 }
 directories/dtl_directory={
-"DoubleJumpAbility": "res://DialogueResources/Dialogue/DoubleJumpAbility.dtl"
+"DoubleJumpAbility": "res://DialogueResources/Dialogue/DoubleJumpAbility.dtl",
+"GuideBeggining": "res://DialogueResources/Dialogue/GuideBeggining.dtl"
 }
 layout/style_directory={}
 extensions_folder="res://addons/dialogic_additions"

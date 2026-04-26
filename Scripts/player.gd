@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 var unlocked_abilities = {}
 var health := 100
-
+@export var curve = Curve
 @onready var keybinder: Control = $Control
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D

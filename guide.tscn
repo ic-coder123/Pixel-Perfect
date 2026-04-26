@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bubmde4vievl8"]
+
+[ext_resource type="Texture2D" uid="uid://vd536nncs4to" path="res://Scripts/Particle.png" id="1_4mqed"]
+[ext_resource type="PackedScene" uid="uid://c4mmlyyc1bht" path="res://Scenes/actionable.tscn" id="2_feuw2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gajip"]
+size = Vector2(8, 8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_83y8a"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1296774832]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1880325815]
+position = Vector2(3, 3)
+scale = Vector2(4, 4)
+texture = ExtResource("1_4mqed")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=83115123]
+position = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_gajip")
+
+[node name="actionable" parent="." unique_id=1803171064 instance=ExtResource("2_feuw2")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="actionable" unique_id=61475272]
+position = Vector2(3, 3)
+shape = SubResource("CircleShape2D_83y8a")
