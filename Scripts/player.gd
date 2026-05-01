@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 var unlocked_abilities = {}
 var health := 100
-@export var curve = Curve
+
 @onready var keybinder: Control = $Control
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -10,7 +10,7 @@ var health := 100
 @onready var sword_area: Area2D = $Sword
 
 const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+const JUMP_VELOCITY = -450.0
 
 const COYOTE_TIME = 0.2
 const JUMP_BUFFER_TIME = 0.18
@@ -322,12 +322,18 @@ func start_dash():
 func _process(_delta):
 	# HANDLE ACTION / DIALOGUE
 	
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("interact") or Input.is_action_just_pressed("ui_accept"):
 		var actionables = actionable_finder.get_overlapping_areas()
 		if actionables.size() > 0:
 			# Trigger the dialogue
+			print("interacting")
 			actionables[0].action()
 			return
 
 	if Input.is_action_just_pressed("ui_cancel"):
 		keybinder.visible = !keybinder.visible
+		if not keybinder.visible:
+			# Release focus so UI doesn't steal 'ui_accept' input
+			var focused = get_viewport().gui_get_focus_owner()
+			if focused:
+				focused.release_focus()

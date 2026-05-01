@@ -1,26 +1,46 @@
 [gd_scene format=3 uid="uid://bubmde4vievl8"]
 
-[ext_resource type="Texture2D" uid="uid://vd536nncs4to" path="res://Scripts/Particle.png" id="1_4mqed"]
+[ext_resource type="Texture2D" uid="uid://xox7bej63lci" path="res://Scripts/GuideSprite.png" id="1_4mqed"]
 [ext_resource type="PackedScene" uid="uid://c4mmlyyc1bht" path="res://Scenes/actionable.tscn" id="2_feuw2"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_gajip"]
-size = Vector2(8, 8)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_83y8a"]
+radius = 407.01105
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_4mqed"]
+a = Vector2(-14, -99)
+b = Vector2(112, 154)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_feuw2"]
+a = Vector2(65, -98)
+b = Vector2(-57, 153)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_gajip"]
+a = Vector2(-9, 168)
+b = Vector2(243, 168)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1296774832]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1880325815]
+texture_filter = 1
 position = Vector2(3, 3)
 scale = Vector2(4, 4)
 texture = ExtResource("1_4mqed")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=83115123]
-position = Vector2(3, 3)
-shape = SubResource("RectangleShape2D_gajip")
-
 [node name="actionable" parent="." unique_id=1803171064 instance=ExtResource("2_feuw2")]
+dialogue_resource = "GuideBeggining"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="actionable" unique_id=61475272]
 position = Vector2(3, 3)
 shape = SubResource("CircleShape2D_83y8a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1816240333]
+position = Vector2(17, -25)
+shape = SubResource("SegmentShape2D_4mqed")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=271526079]
+position = Vector2(-65, -23)
+shape = SubResource("SegmentShape2D_feuw2")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="." unique_id=716127873]
+position = Vector2(-113, -38)
+shape = SubResource("SegmentShape2D_gajip")
