@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://85vtydi7dquq"]
 
 [ext_resource type="Script" uid="uid://os6q3vb58x5p" path="res://Scripts/enemy.gd" id="1_7k104"]
-[ext_resource type="Texture2D" uid="uid://dmwm4wtlit3e0" path="res://icon.svg" id="2_4gyqm"]
+[ext_resource type="Texture2D" uid="uid://bg716ma0kjjkr" path="res://Scripts/Starter-Enemy.png" id="2_dccc1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qi2p4"]
 
@@ -17,9 +17,10 @@ position = Vector2(10, 10)
 shape = SubResource("RectangleShape2D_qi2p4")
 
 [node name="Icon" type="Sprite2D" parent="." unique_id=2131947045]
-position = Vector2(10, 10.375002)
-scale = Vector2(0.15625, 0.16210939)
-texture = ExtResource("2_4gyqm")
+texture_filter = 1
+position = Vector2(10, 10.000001)
+scale = Vector2(0.3125, 0.31250006)
+texture = ExtResource("2_dccc1")
 
 [node name="edge_detector" type="RayCast2D" parent="." unique_id=468454229]
 position = Vector2(10, 1)
