@@ -10,7 +10,7 @@ var health := 100
 @onready var sword_area: Area2D = $Sword
 
 const SPEED = 300.0
-const JUMP_VELOCITY = -450.0
+const JUMP_VELOCITY = -550.0
 
 const COYOTE_TIME = 0.2
 const JUMP_BUFFER_TIME = 0.18
