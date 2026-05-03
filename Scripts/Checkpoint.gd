@@ -11,5 +11,8 @@ func _on_body_entered(body: Node) -> void:
         body.health = 100 # restore health on checkpoint
         # record the global position of this checkpoint
         Main.set_checkpoint(global_position)
-        print("Checkpoint reached at ", global_position)
-        # you could also play a sound, animation, etc.
+
+        if Main.has_method("respawn_all_enemies"):
+            Main.respawn_all_enemies()
+            print("Checkpoint reached and enemies respawned via Main.")
+        

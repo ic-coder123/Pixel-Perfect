@@ -8,8 +8,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1f0kj"]
 size = Vector2(20.51314, 21.034313)
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1825732302]
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1825732302 groups=["enemy"]]
 position = Vector2(-1, -1)
+scale = Vector2(3, 3)
 script = ExtResource("1_7k104")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=259559101]

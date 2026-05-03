@@ -125,11 +125,28 @@ position = Vector2(0, -1)
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1057323220]
 texture_filter = 1
-position = Vector2(84, -829)
-scale = Vector2(4.0615234, 4.0615234)
+position = Vector2(-99.999756, -307.99988)
+scale = Vector2(1.8670052, 1.8670052)
 texture = ExtResource("1_y7y61")
 
 [node name="Parallax2D" type="Parallax2D" parent="Background" unique_id=588351993]
+
+[node name="Background2" type="Sprite2D" parent="." unique_id=1244105743]
+texture_filter = 1
+position = Vector2(-1990.9999, -308)
+scale = Vector2(1.8670052, 1.8670052)
+texture = ExtResource("1_y7y61")
+flip_h = true
+
+[node name="Parallax2D" type="Parallax2D" parent="Background2" unique_id=1169581059]
+
+[node name="Background3" type="Sprite2D" parent="." unique_id=912148900]
+texture_filter = 1
+position = Vector2(-3900.9998, -308)
+scale = Vector2(1.8670052, 1.8670052)
+texture = ExtResource("1_y7y61")
+
+[node name="Parallax2D" type="Parallax2D" parent="Background3" unique_id=1796010407]
 
 [node name="Player" parent="." unique_id=1110338457 instance=ExtResource("2_5nsto")]
 position = Vector2(583, 264)
@@ -155,7 +172,7 @@ position = Vector2(53, 449)
 scale = Vector2(0.35, 0.35)
 
 [node name="Starter-Enemy" parent="." unique_id=1825732302 instance=ExtResource("6_45d1s")]
-position = Vector2(-1775, 391)
-scale = Vector2(4, 4)
+position = Vector2(-1621, 420)
+scale = Vector2(3, 3)
 
 [editable path="DeathZone"]

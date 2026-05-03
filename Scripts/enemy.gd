@@ -13,7 +13,10 @@ var is_chasing: bool = false
 
 func _ready() -> void:
 	add_to_group("enemy")
-	
+	# Register spawn data so Main can recreate this node after it is queue_free'd
+	if Main.has_method("register_enemy_spawn"):
+		Main.register_enemy_spawn(scene_file_path, global_position)
+
 
 func _physics_process(delta: float) -> void:
 
