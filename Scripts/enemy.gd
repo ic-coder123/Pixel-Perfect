@@ -7,8 +7,7 @@ var direction := -1
 var health := 50
 
 
-# If true, the enemy is currently pursuing the player (set by your detection logic).
-# This was referenced below but never declared, causing a scope error.
+
 var is_chasing: bool = false
 
 func _ready() -> void:
@@ -62,4 +61,4 @@ func _on_hitbox_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		print("Player hit!")
 		if body.has_method("take_damage"):
-			body.take_damage(10)
+			body.take_damage(10, global_position)

@@ -128,21 +128,25 @@ func apply_landing_squash():
 	# Snap back
 	land_tween.tween_property(animated_sprite, "scale", Vector2(4.0, 4), 0.1).set_trans(Tween.TRANS_SINE)
 
-func take_damage(amount: int) -> void:
 func take_damage(amount: int, source_position: Vector2 = Vector2.ZERO) -> void:
 	if invulnerability_timer > 0:
 		return
-		
+
 	health -= amount
 	invulnerability_timer = INVULNERABILITY_DURATION
-	
+
+	# Interrupt active actions (cancel sword attack/dash)
+	sword_area.set_deferred("monitoring", false)
+	sword_area.visible = false
+	dash_timer = 0.0
+
 	# Apply Knockback
-	if source_position != Vector2.ZERO:
-		var knock_dir = sign(global_position.x - source_position.x)
-		if knock_dir == 0: knock_dir = -facing_direction
-		velocity = Vector2(knock_dir * 500, -350) # Launch away and slightly up
-		knockback_timer = 0.25 # Block input for a quarter second
-		current_state = State.AIR
+	var knock_dir = sign(global_position.x - source_position.x) if source_position != Vector2.ZERO else -facing_direction
+	if knock_dir == 0: knock_dir = -facing_direction
+
+	velocity = Vector2(knock_dir * 500, -350) # Launch away and slightly up
+	knockback_timer = 0.25 # Block input for a quarter second
+	current_state = State.AIR
 
 	print("Player took damage! Health: ", health)
 	
