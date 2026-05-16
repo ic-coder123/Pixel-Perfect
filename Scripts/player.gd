@@ -20,6 +20,7 @@ const WALL_COYOTE_TIME := 0.12
 const WALL_JUMP_PUSH := 340.0
 const WALL_JUMP_UP := -420.0
 const WALL_SLIDE_MAX_FALL_SPEED := 220.0
+const INVULNERABILITY_DURATION := 1.5
 
 func _ready():
 	unlocked_abilities = Main.unlocked_abilities
@@ -62,6 +63,8 @@ var current_state = State.IDLE
 
 var facing_direction := 1.0
 var attack_timer := 0.0
+var invulnerability_timer := 0.0
+var knockback_timer := 0.0
 
 var _was_attack_pressed := false
 
@@ -126,12 +129,36 @@ func apply_landing_squash():
 	land_tween.tween_property(animated_sprite, "scale", Vector2(4.0, 4), 0.1).set_trans(Tween.TRANS_SINE)
 
 func take_damage(amount: int) -> void:
+func take_damage(amount: int, source_position: Vector2 = Vector2.ZERO) -> void:
+	if invulnerability_timer > 0:
+		return
+		
 	health -= amount
+	invulnerability_timer = INVULNERABILITY_DURATION
+	
+	# Apply Knockback
+	if source_position != Vector2.ZERO:
+		var knock_dir = sign(global_position.x - source_position.x)
+		if knock_dir == 0: knock_dir = -facing_direction
+		velocity = Vector2(knock_dir * 500, -350) # Launch away and slightly up
+		knockback_timer = 0.25 # Block input for a quarter second
+		current_state = State.AIR
+
 	print("Player took damage! Health: ", health)
+	
+	# Visual feedback for taking damage
+	var flash_tween = create_tween()
+	flash_tween.tween_property(animated_sprite, "modulate:a", 0.5, 0.1)
+	flash_tween.tween_property(animated_sprite, "modulate:a", 1.0, 0.1)
+	flash_tween.set_loops(5)
+
 	if health <= 0:
 		respawn()
 
 func update_timers_and_input(delta: float) -> void:
+	invulnerability_timer = max(invulnerability_timer - delta, 0.0)
+	knockback_timer = max(knockback_timer - delta, 0.0)
+	
 	# Jump Buffer
 	if Input.is_action_just_pressed("up"):
 		jump_buffer_timer = JUMP_BUFFER_TIME
@@ -210,7 +237,7 @@ func process_attack_state(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += get_gravity().y * delta
 	attack_timer -= delta
-	velocity.x = 0.0
+	handle_horizontal_movement(delta)
 
 func handle_state_transitions() -> void:
 
@@ -239,11 +266,15 @@ func handle_state_transitions() -> void:
 			if attack_timer <= 0.0:
 				sword_area.set_deferred("monitoring", false)
 				sword_area.visible = false
-				current_state = State.IDLE
+				current_state = State.IDLE if is_on_floor() else State.AIR
 
 func handle_horizontal_movement(delta: float) -> void:
 	# Use get_axis to prevent diagonal input (jumping) from slowing down X movement
 	var direction := Input.get_axis("left", "right")
+	
+	# If we are being knocked back, ignore player input direction
+	if knockback_timer > 0.0:
+		direction = 0.0
 	
 	if direction:
 		velocity.x = direction * SPEED
@@ -291,7 +322,8 @@ func perform_wall_jump():
 func perform_attack() -> void:
 	current_state = State.ATTACK
 	attack_timer = 0.3 # Duration of slash
-	velocity = Vector2.ZERO
+	if is_on_floor():
+		velocity = Vector2.ZERO
 	animated_sprite.play("ATTACK")
 	
 	sword_area.rotation = 0
