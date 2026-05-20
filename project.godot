@@ -85,6 +85,7 @@ enabled=PackedStringArray("res://addons/MetroidvaniaSystem/plugin.cfg", "res://a
 [global_group]
 
 enemy=""
+hazard=""
 
 [input]
 

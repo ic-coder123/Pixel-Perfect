@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 var unlocked_abilities = {}
-var health := 100
+var health := 3
 
 @onready var keybinder: Control = $Control
 
@@ -10,7 +10,7 @@ var health := 100
 @onready var sword_area: Area2D = $Sword
 
 const SPEED = 300.0
-const JUMP_VELOCITY = -550.0
+const JUMP_VELOCITY = -480.0
 
 const COYOTE_TIME = 0.2
 const JUMP_BUFFER_TIME = 0.18
@@ -22,12 +22,14 @@ const WALL_JUMP_UP := -420.0
 const WALL_SLIDE_MAX_FALL_SPEED := 220.0
 const INVULNERABILITY_DURATION := 1.5
 
+# Signals
+signal took_damage
+
 func _ready():
 	unlocked_abilities = Main.unlocked_abilities
 	# make sure the player is in a known group so checkpoint/death zones can identify it
 	if not is_in_group("player"):
 		add_to_group("player")
-	health = 100
 	sword_area.monitoring = false
 	sword_area.visible = false
 	keybinder.visible = false
@@ -37,7 +39,7 @@ func _on_sword_hit(body: Node) -> void:
 
 	# Pogo mechanic: Bounce up if attacking down on an enemy
 	if current_state == State.ATTACK and is_equal_approx(sword_area.rotation, PI / 2):
-		if body.is_in_group("enemy") or body.has_method("take_damage"):
+		if body.is_in_group("enemy") or body.is_in_group("hazard") or body.has_method("take_damage"):
 			velocity.y = JUMP_VELOCITY
 			current_state = State.AIR
 			sword_area.set_deferred("monitoring", false)
@@ -131,8 +133,8 @@ func apply_landing_squash():
 func take_damage(amount: int, source_position: Vector2 = Vector2.ZERO) -> void:
 	if invulnerability_timer > 0:
 		return
-
 	health -= amount
+	took_damage.emit()
 	invulnerability_timer = INVULNERABILITY_DURATION
 
 	# Interrupt active actions (cancel sword attack/dash)

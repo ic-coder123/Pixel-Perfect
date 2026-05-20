@@ -8,7 +8,9 @@ func _ready():
 
 func _on_body_entered(body: Node) -> void:
     if body.is_in_group("player"):
-        body.health = 100 # restore health on checkpoint
+        body.health = 3 # restore health on checkpoint to its maximum of 3
+        if body.has_signal("took_damage"):
+            body.took_damage.emit()
         # record the global position of this checkpoint
         Main.set_checkpoint(global_position)
 

@@ -61,4 +61,4 @@ func _on_hitbox_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		print("Player hit!")
 		if body.has_method("take_damage"):
-			body.take_damage(10, global_position)
+			body.take_damage(1, global_position)

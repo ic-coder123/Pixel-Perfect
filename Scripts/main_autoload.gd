@@ -15,12 +15,15 @@ func register_enemy_spawn(path: String, pos: Vector2) -> void:
 		enemy_spawn_configs.append({"path": path, "pos": pos})
 
 func respawn_all_enemies() -> void:
+	_do_respawn_all_enemies.call_deferred()
+
+func _do_respawn_all_enemies() -> void:
 	# Stop new enemies from registering themselves during the respawn process
 	_is_init_phase = false
-	
+
 	# 1. Remove all current enemies in the group
 	get_tree().call_group("enemy", "queue_free")
-	
+
 	# 2. Re-create them from the saved blueprints
 	for config in enemy_spawn_configs:
 		var enemy_scene = load(config.path)
