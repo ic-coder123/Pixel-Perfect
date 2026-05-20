@@ -5,8 +5,8 @@ extends TextureProgressBar
 func _ready() -> void:
 	if player:
 		
-		max_value = 3.0
-		step = 1.0
+		
+		
 		value = player.health
 		print("Health bar initialized. Max: ", max_value, " Current: ", value)
 		
