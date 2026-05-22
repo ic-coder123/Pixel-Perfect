@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5extwsuw6ktg"
-path="res://.godot/imported/Slash4.png-6f31bcc1492ad12d923fb8266e7a04f2.ctex"
+uid="uid://43q5fqi3lntf"
+path="res://.godot/imported/DirtGroundTileset.png-8e2f23b55afbd89d0423cf9e8ce2142c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scripts/Slash4.png"
-dest_files=["res://.godot/imported/Slash4.png-6f31bcc1492ad12d923fb8266e7a04f2.ctex"]
+source_file="res://sprites/DirtGroundTileset.png"
+dest_files=["res://.godot/imported/DirtGroundTileset.png-8e2f23b55afbd89d0423cf9e8ce2142c.ctex"]
 
 [params]
 

@@ -14,4 +14,4 @@ func _on_hitbox_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		print("Player hit by spike!")
 		if body.has_method("take_damage"):
-			body.take_damage(10)
+			body.take_damage(1)

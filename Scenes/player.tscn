@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bnf158fmkbcrl"]
 
 [ext_resource type="Script" uid="uid://b2xymjc51mqhr" path="res://Scripts/player.gd" id="1_4flbx"]
-[ext_resource type="Texture2D" uid="uid://ifwnnhplrf8" path="res://Scripts/PlayerDashAnim.png" id="2_vgqql"]
-[ext_resource type="Texture2D" uid="uid://2k018n06i4in" path="res://Scripts/Slash1.png" id="3_6t5aa"]
+[ext_resource type="Texture2D" uid="uid://ifwnnhplrf8" path="res://sprites/PlayerDashAnim.png" id="2_vgqql"]
+[ext_resource type="Texture2D" uid="uid://2k018n06i4in" path="res://sprites/Slash1.png" id="3_6t5aa"]
 [ext_resource type="PackedScene" uid="uid://gki6owuvxby3" path="res://Scenes/keybinder.tscn" id="4_vgqql"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vgqql"]

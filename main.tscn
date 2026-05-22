@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://c8b7bslfks0bh"]
+
+[ext_resource type="Script" uid="uid://86eb1d87j0mh" path="res://play_button.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://crphqsngxkqxg" path="res://keybind_button.gd" id="2_0xm2m"]
+
+[node name="Control" type="Control" unique_id=380347186]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=999101713]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.36862746, 0, 0, 1)
+
+[node name="Button" type="Button" parent="." unique_id=707189774]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 192.0
+offset_right = 654.0
+offset_bottom = 223.0
+text = "Play"
+script = ExtResource("1_ig7tw")
+
+[node name="Button2" type="Button" parent="." unique_id=1425885547]
+layout_mode = 0
+offset_left = 496.0
+offset_top = 359.0
+offset_right = 654.0
+offset_bottom = 390.0
+text = "Keybinds"
+script = ExtResource("2_0xm2m")

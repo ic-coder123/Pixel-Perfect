@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bubmde4vievl8"]
 
-[ext_resource type="Texture2D" uid="uid://xox7bej63lci" path="res://Scripts/GuideSprite.png" id="1_4mqed"]
+[ext_resource type="Texture2D" uid="uid://xox7bej63lci" path="res://sprites/GuideSprite.png" id="1_4mqed"]
 [ext_resource type="PackedScene" uid="uid://c4mmlyyc1bht" path="res://Scenes/actionable.tscn" id="2_feuw2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_83y8a"]

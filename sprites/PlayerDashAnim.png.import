@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bicmckv2p2epg"
-path="res://.godot/imported/Slash5.png-925ee1f6db3dce10ee2bfbfcbad0c596.ctex"
+uid="uid://ifwnnhplrf8"
+path="res://.godot/imported/PlayerDashAnim.png-e2f80ed05311d949cab295ac0ca4cadd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scripts/Slash5.png"
-dest_files=["res://.godot/imported/Slash5.png-925ee1f6db3dce10ee2bfbfcbad0c596.ctex"]
+source_file="res://sprites/PlayerDashAnim.png"
+dest_files=["res://.godot/imported/PlayerDashAnim.png-e2f80ed05311d949cab295ac0ca4cadd.ctex"]
 
 [params]
 

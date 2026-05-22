@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cff3pxd2njwfg"]
 
-[ext_resource type="Texture2D" uid="uid://vd536nncs4to" path="res://Scripts/Particle.png" id="1_gj23w"]
+[ext_resource type="Texture2D" uid="uid://vd536nncs4to" path="res://sprites/Particle.png" id="1_gj23w"]
 [ext_resource type="Script" uid="uid://crmnw3ldr3xev" path="res://addons/drag_and_drop/scripts/draggable.gd" id="2_t0j6t"]
 [ext_resource type="Script" uid="uid://djdmnemxrx7bg" path="res://addons/drag_and_drop/resources/draggable_types/draggable_type.gd" id="3_00qys"]
 

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://3j2ly0rlc6a" path="res://Scripts/keybinder.gd" id="1_cm1sw"]
 [ext_resource type="Script" uid="uid://67bld8gx8bfg" path="res://Scripts/keybinder_buttons.gd" id="2_ptycu"]
+[ext_resource type="Script" uid="uid://dne0savmwj0fi" path="res://Scenes/back_button.gd" id="3_776je"]
 
 [node name="Control" type="Control" unique_id=965454374]
 layout_mode = 3
@@ -149,3 +150,12 @@ offset_right = -41.0
 offset_bottom = 29.0
 text = "Attack
 "
+
+[node name="back_button" type="Button" parent="." unique_id=1258192804]
+layout_mode = 0
+offset_left = 466.0
+offset_top = 548.0
+offset_right = 623.0
+offset_bottom = 579.0
+text = "back to main menu"
+script = ExtResource("3_776je")

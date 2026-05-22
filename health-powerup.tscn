@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dm3ias5fx0pvj"]
+
+[ext_resource type="PackedScene" uid="uid://c4mmlyyc1bht" path="res://Scenes/actionable.tscn" id="1_eryhs"]
+[ext_resource type="Texture2D" uid="uid://chaxqihjp0y5l" path="res://sprites/HeartPowerup.png" id="1_lpdb3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j0nsx"]
+radius = 67.41662
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uxgeh"]
+radius = 49.09175
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1296774832]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1880325815]
+texture_filter = 1
+scale = Vector2(4, 4)
+texture = ExtResource("1_lpdb3")
+
+[node name="actionable" parent="." unique_id=1803171064 instance=ExtResource("1_eryhs")]
+dialogue_resource = "GuideBeggining"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="actionable" unique_id=61475272]
+position = Vector2(3, 3)
+shape = SubResource("CircleShape2D_j0nsx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1816240333]
+shape = SubResource("CircleShape2D_uxgeh")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ifwnnhplrf8"
-path="res://.godot/imported/PlayerDashAnim.png-e3adb10fc6cf62ea4d2ce5f2fbe31f06.ctex"
+uid="uid://chaxqihjp0y5l"
+path="res://.godot/imported/HeartPowerup.png-4255323ec39b726487978a63dd6dc4c6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scripts/PlayerDashAnim.png"
-dest_files=["res://.godot/imported/PlayerDashAnim.png-e3adb10fc6cf62ea4d2ce5f2fbe31f06.ctex"]
+source_file="res://sprites/HeartPowerup.png"
+dest_files=["res://.godot/imported/HeartPowerup.png-4255323ec39b726487978a63dd6dc4c6.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xox7bej63lci"
-path="res://.godot/imported/GuideSprite.png-a6cb851bfcfb92386e025bbc966a1faf.ctex"
+uid="uid://dut6d1s3ojo3e"
+path="res://.godot/imported/LogoPixelPerfect.png-ba6e80a9716e65a548b4b59c781db8b6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scripts/GuideSprite.png"
-dest_files=["res://.godot/imported/GuideSprite.png-a6cb851bfcfb92386e025bbc966a1faf.ctex"]
+source_file="res://sprites/LogoPixelPerfect.png"
+dest_files=["res://.godot/imported/LogoPixelPerfect.png-ba6e80a9716e65a548b4b59c781db8b6.ctex"]
 
 [params]
 

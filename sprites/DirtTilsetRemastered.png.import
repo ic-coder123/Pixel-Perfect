@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clw3uatq735j1"
-path="res://.godot/imported/Background.png-f8eb3ae6c5912ac584b5dae41ab031d7.ctex"
+uid="uid://laxqlx4t76b7"
+path="res://.godot/imported/DirtTilsetRemastered.png-00927551d71ef9e50c28522c20842c88.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scripts/Background.png"
-dest_files=["res://.godot/imported/Background.png-f8eb3ae6c5912ac584b5dae41ab031d7.ctex"]
+source_file="res://sprites/DirtTilsetRemastered.png"
+dest_files=["res://.godot/imported/DirtTilsetRemastered.png-00927551d71ef9e50c28522c20842c88.ctex"]
 
 [params]
 

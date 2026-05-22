@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 var unlocked_abilities = {}
-var health := 3
+var health := 5
 
 @onready var keybinder: Control = $Control
 

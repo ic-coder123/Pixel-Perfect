@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://85vtydi7dquq"]
 
 [ext_resource type="Script" uid="uid://os6q3vb58x5p" path="res://Scripts/enemy.gd" id="1_7k104"]
-[ext_resource type="Texture2D" uid="uid://bg716ma0kjjkr" path="res://Scripts/Starter-Enemy.png" id="2_dccc1"]
+[ext_resource type="Texture2D" uid="uid://bg716ma0kjjkr" path="res://sprites/Starter-Enemy.png" id="2_dccc1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qi2p4"]
 
