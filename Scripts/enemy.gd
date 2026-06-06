@@ -2,11 +2,17 @@ extends CharacterBody2D
 @onready var hitbox: Area2D = $Hitbox
 @onready var edge_detector: RayCast2D = $edge_detector
 @onready var dash_initiater: RayCast2D = $dash_initiater
+@onready var sprite: Sprite2D = $Icon
 
 const SPEED = 100.0
-const DASH_SPEED = 400.0
+const DASH_SPEED = 600.0
 var direction := -1
 var health := 50
+
+var is_telegraphing := false
+var is_dashing := false
+var dash_velocity := 0.0
+var dash_target_x := 0.0
 
 func _ready() -> void:
 	add_to_group("enemy")
@@ -16,30 +22,66 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-
 	# Add gravity
 	if not is_on_floor():
 		velocity.y += 980.0 * delta
 
-	var current_speed = SPEED
+	if is_telegraphing:
+		velocity.x = 0
+		# Telegraph vibration effect
+		sprite.position.x = randf_range(-2.0, 2.0)
+	elif is_dashing:
+		velocity.x = direction * dash_velocity
+		sprite.position.x = 0
+		
+		# End the dash if we reach or overshoot the target X coordinate or hit a wall
+		var reached = (direction > 0 and global_position.x >= dash_target_x) or (direction < 0 and global_position.x <= dash_target_x)
+		if reached or is_on_wall():
+			is_dashing = false
+	else:
+		sprite.position.x = 0
 
-	# Dash logic: speed up if the player is detected by the dash_initiater
-	if dash_initiater.is_colliding():
-		var collider = dash_initiater.get_collider()
-		if collider and collider.is_in_group("player"):
-			current_speed = DASH_SPEED
+		# Check for player detection to start dash sequence
+		if dash_initiater.is_colliding():
+			var collider = dash_initiater.get_collider()
+			if collider and collider.is_in_group("player"):
+				_trigger_telegraph()
 
-	# Patrol logic: turn at edges
-	if is_on_floor() and not edge_detector.is_colliding():
-		print("Turning around at edge")
-		direction *= -1
-		edge_detector.target_position.x = abs(edge_detector.target_position.x) * direction
-		dash_initiater.target_position.x = abs(dash_initiater.target_position.x) * direction
+		# Patrol logic: turn at edges
+		if is_on_floor() and not edge_detector.is_colliding():
+			direction *= -1
+			# Flip the positions and targets of the raycasts to face the new direction
+			edge_detector.position.x = abs(edge_detector.position.x) * direction
+			edge_detector.target_position.x = abs(edge_detector.target_position.x) * direction
+			dash_initiater.position.x = abs(dash_initiater.position.x) * direction
+			dash_initiater.target_position.x = abs(dash_initiater.target_position.x) * direction
+			# Flip the sprite to face the new direction
+			sprite.flip_h = direction > 0
 
-	# Move in current direction
-	velocity.x = direction * current_speed
+		velocity.x = direction * SPEED
 
 	move_and_slide()
+
+
+func _trigger_telegraph() -> void:
+	if is_telegraphing or is_dashing:
+		return
+	is_telegraphing = true
+	
+	# Wait for telegraph duration
+	await get_tree().create_timer(0.5).timeout
+	is_telegraphing = false
+	_start_dash()
+
+
+func _start_dash() -> void:
+	is_dashing = true
+	dash_velocity = SPEED
+	dash_target_x = dash_initiater.target_position.x
+	
+	# Tween the speed from normal SPEED up to DASH_SPEED for a smooth acceleration
+	var tween = create_tween()
+	tween.tween_property(self, "dash_velocity", DASH_SPEED, 0.6).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 
 
 func take_damage(amount: int) -> void:
