@@ -37,6 +37,10 @@ shape = SubResource("RectangleShape2D_1f0kj")
 
 [node name="dash_initiater" type="RayCast2D" parent="." unique_id=1890419185]
 position = Vector2(10, 10)
-target_position = Vector2(58.000004, 0.33333302)
+target_position = Vector2(46.666668, 0)
+
+[node name="wall_detector" type="RayCast2D" parent="." unique_id=1375972798]
+position = Vector2(-6.333334, 10)
+target_position = Vector2(37.333336, 0.666667)
 
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

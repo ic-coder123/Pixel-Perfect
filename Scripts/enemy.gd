@@ -2,6 +2,7 @@ extends CharacterBody2D
 @onready var hitbox: Area2D = $Hitbox
 @onready var edge_detector: RayCast2D = $edge_detector
 @onready var dash_initiater: RayCast2D = $dash_initiater
+@onready var wall_detector: RayCast2D = $wall_detector
 @onready var sprite: Sprite2D = $Icon
 
 const SPEED = 100.0
@@ -48,20 +49,26 @@ func _physics_process(delta: float) -> void:
 				_trigger_telegraph()
 
 		# Patrol logic: turn at edges
-		if is_on_floor() and not edge_detector.is_colliding():
-			direction *= -1
-			# Flip the positions and targets of the raycasts to face the new direction
-			edge_detector.position.x = abs(edge_detector.position.x) * direction
-			edge_detector.target_position.x = abs(edge_detector.target_position.x) * direction
-			dash_initiater.position.x = abs(dash_initiater.position.x) * direction
-			dash_initiater.target_position.x = abs(dash_initiater.target_position.x) * direction
-			# Flip the sprite to face the new direction
-			sprite.flip_h = direction > 0
+		if is_on_floor():
+			if not edge_detector.is_colliding():
+				_turn_around()
+			elif wall_detector.is_colliding():
+				_turn_around()
+		
 
 		velocity.x = direction * SPEED
 
 	move_and_slide()
 
+func _turn_around() -> void:
+	direction *= -1
+	# Flip the positions and targets of the raycasts to face the new direction
+	edge_detector.position.x = abs(edge_detector.position.x) * direction
+	edge_detector.target_position.x = abs(edge_detector.target_position.x) * direction
+	dash_initiater.position.x = abs(dash_initiater.position.x) * direction
+	dash_initiater.target_position.x = abs(dash_initiater.target_position.x) * direction
+	# Flip the sprite to face the new direction
+	sprite.flip_h = direction > 0
 
 func _trigger_telegraph() -> void:
 	if is_telegraphing or is_dashing:
@@ -77,7 +84,7 @@ func _trigger_telegraph() -> void:
 func _start_dash() -> void:
 	is_dashing = true
 	dash_velocity = SPEED
-	dash_target_x = dash_initiater.target_position.x
+	dash_target_x = dash_initiater.to_global(dash_initiater.target_position).x
 	
 	# Tween the speed from normal SPEED up to DASH_SPEED for a smooth acceleration
 	var tween = create_tween()
