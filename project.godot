@@ -78,6 +78,10 @@ glossary/default_case_sensitive=true
 layout/style_list=[]
 layout/default_style="Default"
 
+[dotnet]
+
+project/assembly_name="Pixel Perfect"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/MetroidvaniaSystem/plugin.cfg", "res://addons/dialogic/plugin.cfg", "res://addons/drag_and_drop/plugin.cfg", "res://addons/sprite_painter/plugin.cfg")

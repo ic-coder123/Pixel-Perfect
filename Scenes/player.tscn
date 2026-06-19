@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://ifwnnhplrf8" path="res://sprites/PlayerDashAnim.png" id="2_vgqql"]
 [ext_resource type="Texture2D" uid="uid://2k018n06i4in" path="res://sprites/Slash1.png" id="3_6t5aa"]
 [ext_resource type="PackedScene" uid="uid://gki6owuvxby3" path="res://Scenes/keybinder.tscn" id="4_vgqql"]
+[ext_resource type="Script" uid="uid://bd454biissbyq" path="res://Scripts/state_machine_player.gd" id="5_fkybt"]
+[ext_resource type="Script" uid="uid://dikgav8gb7fge" path="res://Scenes/movement_player_component.gd" id="6_x3wgy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vgqql"]
 atlas = ExtResource("2_vgqql")
@@ -132,5 +134,11 @@ offset_left = -478.0
 offset_top = -124.0
 offset_right = -478.0
 offset_bottom = -124.0
+
+[node name="StateMachine" type="Node" parent="." unique_id=1440941383]
+script = ExtResource("5_fkybt")
+
+[node name="MovementPlayerComponent" type="Node" parent="StateMachine" unique_id=252850094]
+script = ExtResource("6_x3wgy")
 
 [connection signal="body_entered" from="Sword" to="." method="_on_sword_hit"]
