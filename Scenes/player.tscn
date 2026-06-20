@@ -79,7 +79,7 @@ size = Vector2(128, 127)
 radius = 174.02586
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
-size = Vector2(27.5, 27)
+size = Vector2(54, 40)
 
 [node name="CharacterBody2D2" type="CharacterBody2D" unique_id=1110338457 groups=["player"]]
 scale = Vector2(0.5, 0.5)
@@ -126,7 +126,7 @@ texture = ExtResource("3_6t5aa")
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword" unique_id=1135008320]
-position = Vector2(87.25, 6.5)
+position = Vector2(107, 6)
 shape = SubResource("RectangleShape2D_cvnsp")
 
 [node name="Control" parent="." unique_id=965454374 instance=ExtResource("4_vgqql")]

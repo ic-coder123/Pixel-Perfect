@@ -8,8 +8,8 @@ var attack_timer := 0.0
 var _was_attack_pressed := false
 
 var player: CharacterBody2D
-var state_machine: Node
-var movement: Node
+var state_machine: StateMachinePlayer
+var movement: MovementPlayerComponent
 var animated_sprite: AnimatedSprite2D
 var sword_area: Area2D
 
@@ -55,7 +55,7 @@ func perform_attack() -> void:
 	if Input.is_action_pressed("down"):
 		sword_area.rotation = PI / 2
 	elif Input.is_action_pressed("up"):
-		sword_area.rotation = -PI / 2
+		sword_area.rotation = - PI / 2
 	else:
 		sword_area.scale.x = movement.facing_direction
 
@@ -94,14 +94,18 @@ func is_down_attack() -> bool:
 
 
 func handle_sword_hit(body: Node) -> void:
+	print("Sword hit something: ", body.name, " groups: ", body.get_groups())
 	if body == player:
 		return
 
+	var target = body
+	if not (body.is_in_group("enemy") or body.is_in_group("hazard")) and body.get_parent():
+		if body.get_parent().is_in_group("enemy") or body.get_parent().is_in_group("hazard") or body.get_parent().has_method("take_damage"):
+			target = body.get_parent()
+
 	if is_down_attack():
-		if body.is_in_group("enemy") or body.is_in_group("hazard") or body.has_method("take_damage"):
+		if target.is_in_group("enemy") or target.is_in_group("hazard") or target.has_method("take_damage"):
 			handle_pogo_bounce()
 
-	if body.has_method("take_damage"):
-		body.take_damage(SWORD_DAMAGE)
-	elif body.is_in_group("enemy"):
-		body.queue_free()
+	if target.has_method("take_damage"):
+		target.take_damage(SWORD_DAMAGE)

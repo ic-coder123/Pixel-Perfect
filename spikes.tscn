@@ -9,23 +9,23 @@ size = Vector2(48, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8fhau"]
 size = Vector2(45, 29)
 
-[node name="Spikes" type="Node2D" unique_id=247089813 groups=["hazard"]]
+[node name="Spikes" type="Node2D" unique_id=247089813]
 script = ExtResource("1_nrdsm")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=339789291]
 texture_filter = 1
 texture = ExtResource("1_s0g1x")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1249257231]
+[node name="hitbox" type="Area2D" parent="." unique_id=1249257231]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=331993042]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" unique_id=331993042]
 position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_nrdsm")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1639607636]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1639607636 groups=["hazard"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=958299118]
 position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_8fhau")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
