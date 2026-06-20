@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://gki6owuvxby3" path="res://Scenes/keybinder.tscn" id="4_vgqql"]
 [ext_resource type="Script" uid="uid://bd454biissbyq" path="res://Scripts/state_machine_player.gd" id="5_fkybt"]
 [ext_resource type="Script" uid="uid://dikgav8gb7fge" path="res://Scenes/movement_player_component.gd" id="6_x3wgy"]
+[ext_resource type="Script" uid="uid://cikuee6qbxx8m" path="res://Scripts/combat_player_component.gd" id="7_3smsa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vgqql"]
 atlas = ExtResource("2_vgqql")
@@ -42,7 +43,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3smsa")
 }],
-"loop": true,
+"loop": 1,
 "name": &"DASH",
 "speed": 5.0
 }, {
@@ -50,7 +51,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6t5aa")
 }],
-"loop": true,
+"loop": 1,
 "name": &"IDLE",
 "speed": 20.0
 }]
@@ -140,5 +141,8 @@ script = ExtResource("5_fkybt")
 
 [node name="MovementPlayerComponent" type="Node" parent="StateMachine" unique_id=252850094]
 script = ExtResource("6_x3wgy")
+
+[node name="CombatPlayerComponent" type="Node" parent="StateMachine" unique_id=383159615]
+script = ExtResource("7_3smsa")
 
 [connection signal="body_entered" from="Sword" to="." method="_on_sword_hit"]

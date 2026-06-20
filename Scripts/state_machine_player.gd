@@ -1,28 +1,18 @@
 class_name StateMachinePlayer
 extends Node
 
-const MovementPlayerComponentScript = preload("res://Scenes/movement_player_component.gd")
-
 enum State { IDLE, RUN, AIR, WALL_SLIDE, DASH, ATTACK }
 var current_state = State.IDLE
 
-var attack_timer := 0.0
-var _was_attack_pressed := false
-
-var movement
-
 @onready var player: CharacterBody2D = get_parent()
 @onready var animated_sprite: AnimatedSprite2D = player.get_node("AnimatedSprite2D")
-@onready var sword_area: Area2D = player.get_node("Sword")
+@onready var movement: MovementPlayerComponent = $MovementPlayerComponent
+@onready var combat: CombatPlayerComponent = $CombatPlayerComponent
 
 
 func _ready() -> void:
-	movement = get_node_or_null("MovementPlayerComponent")
-	if movement == null:
-		movement = MovementPlayerComponentScript.new()
-		movement.name = "MovementPlayerComponent"
-		add_child(movement)
 	movement.setup(player, self, animated_sprite)
+	combat.setup(player, self, movement, animated_sprite, player.get_node("Sword"))
 
 
 func _physics_process(delta: float) -> void:
@@ -54,32 +44,15 @@ func _physics_process(delta: float) -> void:
 
 
 func on_damaged(knockback_velocity: Vector2) -> void:
-	interrupt_combat()
+	combat.interrupt()
+	movement.dash_timer = 0.0
 	movement.apply_knockback(knockback_velocity)
 	current_state = State.AIR
 
 
-func interrupt_combat() -> void:
-	sword_area.set_deferred("monitoring", false)
-	sword_area.visible = false
-	movement.dash_timer = 0.0
-
-
-func perform_pogo_bounce() -> void:
-	movement.apply_pogo_bounce()
-	current_state = State.AIR
-	sword_area.set_deferred("monitoring", false)
-	sword_area.visible = false
-
-
 func update_timers_and_input(delta: float) -> void:
 	movement.update_timers(delta)
-
-	var attack_pressed := Input.is_action_pressed("attack")
-	if attack_pressed and not _was_attack_pressed:
-		if current_state != State.ATTACK and current_state != State.DASH and current_state != State.WALL_SLIDE:
-			perform_attack()
-	_was_attack_pressed = attack_pressed
+	combat.update_attack_input()
 
 
 func process_ground_state(delta: float) -> void:
@@ -118,7 +91,7 @@ func process_dash_state(delta: float) -> void:
 func process_attack_state(delta: float) -> void:
 	if not player.is_on_floor():
 		movement.apply_gravity(delta)
-	attack_timer -= delta
+	combat.tick_attack(delta)
 	movement.handle_horizontal_movement(delta)
 
 
@@ -144,27 +117,4 @@ func handle_state_transitions() -> void:
 		State.DASH:
 			movement.finish_dash_if_expired()
 		State.ATTACK:
-			if attack_timer <= 0.0:
-				sword_area.set_deferred("monitoring", false)
-				sword_area.visible = false
-				current_state = State.IDLE if player.is_on_floor() else State.AIR
-
-
-func perform_attack() -> void:
-	current_state = State.ATTACK
-	attack_timer = 0.3
-	if player.is_on_floor():
-		player.velocity = Vector2.ZERO
-	animated_sprite.play("ATTACK")
-
-	sword_area.rotation = 0
-	sword_area.scale.x = 1.0
-	sword_area.visible = true
-	sword_area.set_deferred("monitoring", true)
-
-	if Input.is_action_pressed("down"):
-		sword_area.rotation = PI / 2
-	elif Input.is_action_pressed("up"):
-		sword_area.rotation = -PI / 2
-	else:
-		sword_area.scale.x = movement.facing_direction
+			combat.finish_attack_if_expired()

@@ -11,7 +11,6 @@ signal took_damage
 @onready var keybinder: Control = $Control
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var actionable_finder: Area2D = $actionable_finder
-@onready var sword_area: Area2D = $Sword
 @onready var state_machine = $StateMachine
 
 
@@ -19,23 +18,11 @@ func _ready() -> void:
 	unlocked_abilities = Main.unlocked_abilities
 	if not is_in_group("player"):
 		add_to_group("player")
-	sword_area.monitoring = false
-	sword_area.visible = false
 	keybinder.visible = false
 
 
 func _on_sword_hit(body: Node) -> void:
-	if body == self:
-		return
-
-	if state_machine.current_state == state_machine.State.ATTACK and is_equal_approx(sword_area.rotation, PI / 2):
-		if body.is_in_group("enemy") or body.is_in_group("hazard") or body.has_method("take_damage"):
-			state_machine.perform_pogo_bounce()
-
-	if body.has_method("take_damage"):
-		body.take_damage(10)
-	elif body.is_in_group("enemy"):
-		body.queue_free()
+	state_machine.combat.handle_sword_hit(body)
 
 
 func respawn() -> void:
