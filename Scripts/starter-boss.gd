@@ -1,22 +1,22 @@
 extends CharacterBody2D
 
 #---Variables---
-var health := 200
-
+@export var health := 200
+@export var DAMAGE_DEALT := 10
 
 
 # --- Constants ---
-const LUNGE_SPEED := 600.0
-const LUNGE_DURATION := 0.5
-const ATTACK_COOLDOWN := 2.0
-const STUN_DURATION := 1.0
+@export var LUNGE_SPEED := 600.0
+@export var LUNGE_DURATION := 0.5
+@export var ATTACK_COOLDOWN := 2.0
+@export var STUN_DURATION := 1.0
 
 # --- Nodes ---
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var player_detection_cast: RayCast2D = $RayCast2D
 
 # --- State Machine ---
-enum State { IDLE, LUNGING, COOLDOWN, STUNNED }
+enum State {IDLE, LUNGING, COOLDOWN, STUNNED}
 var current_state := State.IDLE
 
 # --- State Variables ---
@@ -40,7 +40,7 @@ func _physics_process(delta: float) -> void:
 # This is the function your player is looking for!
 func deal_damage_to_player(player: Node) -> void:
 	if player.has_method("take_damage"):
-		player.take_damage(10)
+		player.take_damage(DAMAGE_DEALT)
 	elif player.is_in_group("player"):
 		print("Warning: Detected a node in 'player' group without 'take_damage' method!")
 
@@ -56,8 +56,8 @@ func take_damage(amount: int) -> void:
 	flash_white()
 
 func trigger_stun() -> void:
-	if current_state == State.STUNNED: 
-		return 
+	if current_state == State.STUNNED:
+		return
 		
 	current_state = State.STUNNED
 	stun_timer = STUN_DURATION
@@ -67,15 +67,12 @@ func trigger_stun() -> void:
 	print("Boss took damage and is now stunned!")
 
 func flash_white() -> void:
-
 	var flash_tween = create_tween()
 	flash_tween.tween_property(animated_sprite, "modulate", Color(1, 1, 1), 0.1)
 	flash_tween.tween_property(animated_sprite, "modulate", Color(1, 1, 1, 0), 0.1).set_delay(0.1)
 
 
-
 # --- State Functions ---
-
 
 
 func process_idle_state() -> void:

@@ -5,10 +5,15 @@ extends CharacterBody2D
 @onready var wall_detector: RayCast2D = $wall_detector
 @onready var sprite: Sprite2D = $Icon
 
-const SPEED = 100.0
-const DASH_SPEED = 600.0
-var direction := -1
-var health := 50
+@export var SPEED := 100.0
+@export var DASH_SPEED := 600.0
+@export var direction := -1
+@export var health := 50
+@export var gravity := 980.0
+@export var TELEGRAPH_DURATION := 0.5
+@export var DASH_ACCEL_DURATION := 0.6
+@export var DAMAGE_DEALT := 1
+@export var TELEGRAPH_VIBRATION := 2.0
 
 var is_telegraphing := false
 var is_dashing := false
@@ -25,12 +30,12 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	# Add gravity
 	if not is_on_floor():
-		velocity.y += 980.0 * delta
+		velocity.y += gravity * delta
 
 	if is_telegraphing:
 		velocity.x = 0
 		# Telegraph vibration effect
-		sprite.position.x = randf_range(-2.0, 2.0)
+		sprite.position.x = randf_range(-TELEGRAPH_VIBRATION, TELEGRAPH_VIBRATION)
 	elif is_dashing:
 		velocity.x = direction * dash_velocity
 		sprite.position.x = 0
@@ -76,7 +81,7 @@ func _trigger_telegraph() -> void:
 	is_telegraphing = true
 	
 	# Wait for telegraph duration
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(TELEGRAPH_DURATION).timeout
 	is_telegraphing = false
 	_start_dash()
 
@@ -88,12 +93,13 @@ func _start_dash() -> void:
 	
 	# Tween the speed from normal SPEED up to DASH_SPEED for a smooth acceleration
 	var tween = create_tween()
-	tween.tween_property(self, "dash_velocity", DASH_SPEED, 0.6).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	tween.tween_property(self, "dash_velocity", DASH_SPEED, DASH_ACCEL_DURATION).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 
 
 func take_damage(amount: int) -> void:
 	health -= amount
 	print("Enemy took damage! Health: ", health)
+	sprite.modulate = Color.RED
 	if health <= 0:
 		queue_free()
 
@@ -101,4 +107,4 @@ func _on_hitbox_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		print("Player hit!")
 		if body.has_method("take_damage"):
-			body.take_damage(1, global_position)
+			body.take_damage(DAMAGE_DEALT, global_position)

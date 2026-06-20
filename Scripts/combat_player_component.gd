@@ -1,8 +1,8 @@
 class_name CombatPlayerComponent
 extends Node
 
-const ATTACK_DURATION := 0.3
-const SWORD_DAMAGE := 10
+@export var ATTACK_DURATION := 0.3
+@export var SWORD_DAMAGE := 10
 
 var attack_timer := 0.0
 var _was_attack_pressed := false
@@ -99,9 +99,7 @@ func handle_sword_hit(body: Node) -> void:
 		return
 
 	var target = body
-	if not (body.is_in_group("enemy") or body.is_in_group("hazard")) and body.get_parent():
-		if body.get_parent().is_in_group("enemy") or body.get_parent().is_in_group("hazard") or body.get_parent().has_method("take_damage"):
-			target = body.get_parent()
+
 
 	if is_down_attack():
 		if target.is_in_group("enemy") or target.is_in_group("hazard") or target.has_method("take_damage"):

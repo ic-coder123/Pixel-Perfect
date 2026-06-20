@@ -1,10 +1,12 @@
 extends CharacterBody2D
-
-var unlocked_abilities = {}
-var health := 5
+var unlocked_abilities
+@export var health := 5
 var invulnerability_timer := 0.0
 
-const INVULNERABILITY_DURATION := 1.5
+@export var INVULNERABILITY_DURATION := 1.5
+@export var KNOCKBACK_HORIZONTAL := 500
+@export var KNOCKBACK_VERTICAL := -350
+@export var FLASH_LOOP_COUNT := 5
 
 signal took_damage
 
@@ -38,16 +40,16 @@ func take_damage(amount: int, source_position: Vector2 = Vector2.ZERO) -> void:
 
 	var knock_dir = sign(global_position.x - source_position.x) if source_position != Vector2.ZERO else -state_machine.movement.facing_direction
 	if knock_dir == 0:
-		knock_dir = -state_machine.movement.facing_direction
+		knock_dir = - state_machine.movement.facing_direction
 
-	state_machine.on_damaged(Vector2(knock_dir * 500, -350))
+	state_machine.on_damaged(Vector2(knock_dir * KNOCKBACK_HORIZONTAL, KNOCKBACK_VERTICAL))
 
 	print("Player took damage! Health: ", health)
 
 	var flash_tween = create_tween()
 	flash_tween.tween_property(animated_sprite, "modulate:a", 0.5, 0.1)
 	flash_tween.tween_property(animated_sprite, "modulate:a", 1.0, 0.1)
-	flash_tween.set_loops(5)
+	flash_tween.set_loops(FLASH_LOOP_COUNT)
 
 	if health <= 0:
 		respawn()

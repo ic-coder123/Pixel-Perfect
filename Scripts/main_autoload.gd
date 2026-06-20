@@ -2,7 +2,7 @@ extends Node
 
 var unlocked_abilities = {
 	"double_jump": false,
-	"dash": false,
+	"dash": true,
 	"wall_jump": false
 }
 # Add these variables to the top of Main.gd
@@ -40,17 +40,17 @@ func unlock_ability(ability_name: String) -> void:
 # checkpoint/respawn state --------------------------------------------------
 
 # world start location (optional, can be set by level or player)
-var start_position : Vector2 = Vector2.ZERO
+var start_position: Vector2 = Vector2.ZERO
 
 # last triggered checkpoint position; default to start
-var last_checkpoint : Vector2 = Vector2.ZERO
+var last_checkpoint: Vector2 = Vector2.ZERO
 
 func _ready():
 	# ensure the start position matches the first call to set_checkpoint
 	last_checkpoint = start_position
 	load_input_data()
 
-func set_checkpoint(pos : Vector2) -> void:
+func set_checkpoint(pos: Vector2) -> void:
 	last_checkpoint = pos
 
 func get_checkpoint() -> Vector2:

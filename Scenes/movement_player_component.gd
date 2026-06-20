@@ -1,16 +1,22 @@
 class_name MovementPlayerComponent
 extends Node
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -480.0
+@export var SPEED := 300.0
+@export var JUMP_VELOCITY := -480.0
 
-const COYOTE_TIME = 0.2
-const JUMP_BUFFER_TIME = 0.18
+@export var COYOTE_TIME := 0.2
+@export var JUMP_BUFFER_TIME := 0.18
 
-const WALL_COYOTE_TIME := 0.12
-const WALL_JUMP_PUSH := 340.0
-const WALL_JUMP_UP := -420.0
-const WALL_SLIDE_MAX_FALL_SPEED := 220.0
+@export var WALL_COYOTE_TIME := 0.12
+@export var WALL_JUMP_PUSH := 340.0
+@export var WALL_JUMP_UP := -420.0
+@export var WALL_SLIDE_MAX_FALL_SPEED := 220.0
+@export var DASH_SPEED_MULTIPLIER := 2.0
+@export var DASH_FRICTION := 0.1
+@export var GROUND_FRICTION := 5.0
+@export var JUMP_CUT_MULTIPLIER := 0.5
+@export var LAND_SQUASH_X := 4.3
+@export var LAND_SQUASH_Y := 3.7
 
 var facing_direction := 1.0
 var knockback_timer := 0.0
@@ -67,7 +73,7 @@ func update_landing() -> void:
 
 func apply_landing_squash() -> void:
 	var land_tween = create_tween()
-	land_tween.tween_property(animated_sprite, "scale", Vector2(4.3, 3.7), 0.1).set_trans(Tween.TRANS_SINE)
+	land_tween.tween_property(animated_sprite, "scale", Vector2(LAND_SQUASH_X, LAND_SQUASH_Y), 0.1).set_trans(Tween.TRANS_SINE)
 	land_tween.tween_property(animated_sprite, "scale", Vector2(4.0, 4), 0.1).set_trans(Tween.TRANS_SINE)
 
 
@@ -93,7 +99,7 @@ func handle_horizontal_movement(delta: float) -> void:
 		if state_machine.current_state == state_machine.State.IDLE:
 			state_machine.current_state = state_machine.State.RUN
 	else:
-		player.velocity.x = move_toward(player.velocity.x, 0, SPEED * 5.0 * delta)
+		player.velocity.x = move_toward(player.velocity.x, 0, SPEED * GROUND_FRICTION * delta)
 		if state_machine.current_state == state_machine.State.RUN:
 			state_machine.current_state = state_machine.State.IDLE
 
@@ -104,7 +110,7 @@ func apply_gravity(delta: float) -> void:
 
 func apply_variable_jump_cut() -> void:
 	if player.velocity.y < 0 and Input.is_action_just_released("up"):
-		player.velocity.y *= 0.5
+		player.velocity.y *= JUMP_CUT_MULTIPLIER
 
 
 func apply_wall_slide_friction() -> void:
@@ -161,7 +167,7 @@ func start_dash() -> void:
 	var dash_dir = facing_direction
 	if player.velocity.x != 0:
 		dash_dir = sign(player.velocity.x)
-	player.velocity.x = SPEED * dash_dir * 2
+	player.velocity.x = SPEED * dash_dir * DASH_SPEED_MULTIPLIER
 	dash_timer = 0.2
 	state_machine.current_state = state_machine.State.DASH
 
@@ -173,4 +179,4 @@ func tick_dash(delta: float) -> void:
 func finish_dash_if_expired() -> void:
 	if dash_timer <= 0.0:
 		state_machine.current_state = state_machine.State.IDLE if player.is_on_floor() else state_machine.State.AIR
-		player.velocity.x = move_toward(player.velocity.x, 0, SPEED * 0.1)
+		player.velocity.x = move_toward(player.velocity.x, 0, SPEED * DASH_FRICTION)
