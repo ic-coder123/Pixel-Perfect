@@ -46,11 +46,10 @@ func deal_damage_to_player(player: Node) -> void:
 
 
 func take_damage(amount: int) -> void:
+	health -= amount
+	
 	# 1. Start the Stun
 	trigger_stun()
-	
-	
-	health -= amount
 	
 	# 3. Add 'Juice' (Flash white, play sound, etc.)
 	flash_white()
@@ -67,9 +66,10 @@ func trigger_stun() -> void:
 	print("Boss took damage and is now stunned!")
 
 func flash_white() -> void:
+	var original_modulate = animated_sprite.modulate
 	var flash_tween = create_tween()
 	flash_tween.tween_property(animated_sprite, "modulate", Color(1, 1, 1), 0.1)
-	flash_tween.tween_property(animated_sprite, "modulate", Color(1, 1, 1, 0), 0.1).set_delay(0.1)
+	flash_tween.tween_property(animated_sprite, "modulate", original_modulate, 0.1).set_delay(0.1)
 
 
 # --- State Functions ---
