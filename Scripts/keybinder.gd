@@ -8,7 +8,6 @@ var updating_key = ""
 var updating_button: Button = null
 
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for child in get_children():
@@ -30,7 +29,7 @@ func _on_default_button_pressed() -> void:
 		if "input_id" in child:
 			var target_button = child.button_name if child.button_name else child
 			_update_button_text(target_button, child.input_id)
-	#Main.save_input_data()
+			Main.save_input_data()
 
 func _on_button_pressed(button: Button) -> void:
 	is_accepting_input = true
@@ -39,11 +38,10 @@ func _on_button_pressed(button: Button) -> void:
 	updating_button.text = "Press Key..."
 
 	
-
 func _input(event: InputEvent) -> void:
 	if is_accepting_input:
 		print(InputMap.get_actions())
-		if (event is InputEventKey or event is InputEventMouseButton) and event.pressed :
+		if (event is InputEventKey or event is InputEventMouseButton) and event.pressed:
 			# Check for conflicts with other actions
 			for action in InputMap.get_actions():
 				if action != updating_key and InputMap.action_has_event(action, event):
@@ -57,7 +55,7 @@ func _input(event: InputEvent) -> void:
 
 			InputMap.action_erase_events(updating_key)
 			InputMap.action_add_event(updating_key, event)
-			#Main.save_input_data()
+			Main.save_input_data()
 			
 			_update_button_text(updating_button, updating_key)
 			
@@ -72,7 +70,6 @@ func _update_button_text(button: Button, action: String) -> void:
 		button.text = events[0].as_text()
 	else:
 		button.text = "Unbound"
-
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
