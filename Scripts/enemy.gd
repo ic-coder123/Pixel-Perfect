@@ -99,7 +99,14 @@ func _start_dash() -> void:
 func take_damage(amount: int) -> void:
 	health -= amount
 	print("Enemy took damage! Health: ", health)
+	
+	# Flash red effect
+	var original_modulate = sprite.modulate
 	sprite.modulate = Color.RED
+	
+	var tween = create_tween()
+	tween.tween_property(sprite, "modulate", original_modulate, 0.2)
+	
 	if health <= 0:
 		queue_free()
 
