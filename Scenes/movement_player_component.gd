@@ -142,6 +142,24 @@ func perform_jump() -> void:
 	var size_tween = create_tween()
 	size_tween.tween_property(animated_sprite, "scale", Vector2(3.8, 4.2), 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	size_tween.tween_property(animated_sprite, "scale", Vector2(4, 4), 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	
+	play_jump_dust()
+
+
+func play_jump_dust() -> void:
+	var jump_dust_scene = preload("res://Scenes/jump_dust.tscn")
+	var jump_dust_instance = jump_dust_scene.instantiate()
+	
+	# Position at player's feet
+	jump_dust_instance.position = player.position - Vector2(0, 2)
+	jump_dust_instance.scale = Vector2(2, 2)
+	
+	# Add to the world (not the player) so it stays at ground level
+	player.get_parent().add_child(jump_dust_instance)
+	
+	# Play animation and auto-remove when done
+	jump_dust_instance.play("jump_dust")
+	jump_dust_instance.animation_finished.connect(func(): jump_dust_instance.queue_free())
 
 
 func perform_double_jump() -> void:
@@ -149,6 +167,8 @@ func perform_double_jump() -> void:
 	double_jump_used = true
 	jump_buffer_timer = 0.0
 	state_machine.current_state = state_machine.State.AIR
+	
+	play_jump_dust()
 
 
 func perform_wall_jump() -> void:
@@ -157,6 +177,8 @@ func perform_wall_jump() -> void:
 	jump_buffer_timer = 0.0
 	wall_coyote_timer = 0.0
 	state_machine.current_state = state_machine.State.AIR
+	
+	play_jump_dust()
 
 
 func check_dash_input() -> bool:

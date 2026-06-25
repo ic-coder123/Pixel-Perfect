@@ -115,6 +115,7 @@ collision_layer = 0
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="actionable_finder" unique_id=2064812862]
+position = Vector2(-412, -134)
 shape = SubResource("CircleShape2D_cvnsp")
 
 [node name="Sword" type="Area2D" parent="." unique_id=12981103]
@@ -141,6 +142,20 @@ script = ExtResource("5_fkybt")
 
 [node name="MovementPlayerComponent" type="Node" parent="StateMachine" unique_id=252850094]
 script = ExtResource("6_x3wgy")
+SPEED = null
+JUMP_VELOCITY = null
+COYOTE_TIME = null
+JUMP_BUFFER_TIME = null
+WALL_COYOTE_TIME = null
+WALL_JUMP_PUSH = null
+WALL_JUMP_UP = null
+WALL_SLIDE_MAX_FALL_SPEED = null
+DASH_SPEED_MULTIPLIER = null
+DASH_FRICTION = null
+GROUND_FRICTION = null
+JUMP_CUT_MULTIPLIER = null
+LAND_SQUASH_X = null
+LAND_SQUASH_Y = null
 
 [node name="CombatPlayerComponent" type="Node" parent="StateMachine" unique_id=383159615]
 script = ExtResource("7_3smsa")
