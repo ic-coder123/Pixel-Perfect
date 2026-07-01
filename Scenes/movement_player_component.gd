@@ -11,7 +11,7 @@ extends Node
 @export var WALL_JUMP_PUSH := 340.0
 @export var WALL_JUMP_UP := -420.0
 @export var WALL_SLIDE_MAX_FALL_SPEED := 220.0
-@export var DASH_SPEED_MULTIPLIER := 2.0
+@export var DASH_SPEED_MULTIPLIER := 3
 @export var DASH_FRICTION := 0.1
 @export var GROUND_FRICTION := 5.0
 @export var JUMP_CUT_MULTIPLIER := 0.5

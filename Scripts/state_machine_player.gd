@@ -1,7 +1,7 @@
 class_name StateMachinePlayer
 extends Node
 
-enum State { IDLE, RUN, AIR, WALL_SLIDE, DASH, ATTACK }
+enum State {IDLE, RUN, AIR, WALL_SLIDE, DASH, ATTACK}
 var current_state = State.IDLE
 
 @onready var player: CharacterBody2D = get_parent()
@@ -86,7 +86,9 @@ func process_wall_slide_state(delta: float) -> void:
 
 func process_dash_state(delta: float) -> void:
 	movement.tick_dash(delta)
-
+	if not player.is_on_floor():
+		current_state = State.AIR
+		
 
 func process_attack_state(delta: float) -> void:
 	if not player.is_on_floor():
