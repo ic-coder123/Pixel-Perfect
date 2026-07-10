@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://udbmlb6rm5hi"]
+
+[ext_resource type="Texture2D" uid="uid://bt1e4ioalg31f" path="res://sprites/landing_dust.png" id="1_4r1ue"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yp7vh"]
+atlas = ExtResource("1_4r1ue")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ljh1w"]
+atlas = ExtResource("1_4r1ue")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_guuxa"]
+atlas = ExtResource("1_4r1ue")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cjqx1"]
+atlas = ExtResource("1_4r1ue")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8fn0a"]
+atlas = ExtResource("1_4r1ue")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pge0o"]
+atlas = ExtResource("1_4r1ue")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ggnaw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yp7vh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ljh1w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_guuxa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cjqx1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8fn0a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pge0o")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" unique_id=1103711813]
+sprite_frames = SubResource("SpriteFrames_ggnaw")

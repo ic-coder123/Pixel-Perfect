@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bfo0qn0knwwqv" path="res://sprites/SlashAttack.png" id="3_3smsa"]
 [ext_resource type="PackedScene" uid="uid://gki6owuvxby3" path="res://Scenes/keybinder.tscn" id="4_vgqql"]
 [ext_resource type="Script" uid="uid://bd454biissbyq" path="res://Scripts/state_machine_player.gd" id="5_fkybt"]
-[ext_resource type="Script" uid="uid://dikgav8gb7fge" path="res://Scenes/movement_player_component.gd" id="6_x3wgy"]
+[ext_resource type="Script" uid="uid://dikgav8gb7fge" path="res://Scripts/movement_player_component.gd" id="6_x3wgy"]
 [ext_resource type="Script" uid="uid://cikuee6qbxx8m" path="res://Scripts/combat_player_component.gd" id="7_3smsa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vgqql"]
@@ -79,7 +79,7 @@ size = Vector2(128, 127)
 radius = 174.02586
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
-size = Vector2(54, 40)
+size = Vector2(94, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8erm5"]
 atlas = ExtResource("3_3smsa")
@@ -186,11 +186,13 @@ shape = SubResource("CircleShape2D_cvnsp")
 [node name="Sword" type="Area2D" parent="." unique_id=12981103]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword" unique_id=1135008320]
-position = Vector2(107, 6)
+position = Vector2(127, 6)
 shape = SubResource("RectangleShape2D_cvnsp")
 
 [node name="SwordSprite2D" type="AnimatedSprite2D" parent="Sword" unique_id=2026218706]
-position = Vector2(106, 6)
+texture_filter = 1
+position = Vector2(121.00001, -4.999996)
+scale = Vector2(1.65625, 2.40625)
 sprite_frames = SubResource("SpriteFrames_ggnaw")
 animation = &"ATTACK"
 
@@ -206,20 +208,6 @@ script = ExtResource("5_fkybt")
 
 [node name="MovementPlayerComponent" type="Node" parent="StateMachine" unique_id=252850094]
 script = ExtResource("6_x3wgy")
-SPEED = null
-JUMP_VELOCITY = null
-COYOTE_TIME = null
-JUMP_BUFFER_TIME = null
-WALL_COYOTE_TIME = null
-WALL_JUMP_PUSH = null
-WALL_JUMP_UP = null
-WALL_SLIDE_MAX_FALL_SPEED = null
-DASH_SPEED_MULTIPLIER = null
-DASH_FRICTION = null
-GROUND_FRICTION = null
-JUMP_CUT_MULTIPLIER = null
-LAND_SQUASH_X = null
-LAND_SQUASH_Y = null
 
 [node name="CombatPlayerComponent" type="Node" parent="StateMachine" unique_id=383159615]
 script = ExtResource("7_3smsa")

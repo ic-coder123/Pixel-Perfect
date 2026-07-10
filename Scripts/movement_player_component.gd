@@ -68,6 +68,7 @@ func update_timers(delta: float) -> void:
 func update_landing() -> void:
 	if player.is_on_floor() and was_in_air:
 		apply_landing_squash()
+		play_land_dust()
 	was_in_air = not player.is_on_floor()
 
 
@@ -160,6 +161,23 @@ func play_jump_dust() -> void:
 	# Play animation and auto-remove when done
 	jump_dust_instance.play("jump_dust")
 	jump_dust_instance.animation_finished.connect(func(): jump_dust_instance.queue_free())
+
+
+func play_land_dust() -> void:
+	var land_dust_scene = preload("res://Scenes/landing_dust.tscn")
+	var land_dust_instance = land_dust_scene.instantiate()
+	
+	# Position at player's feet
+	land_dust_instance.position = player.position - Vector2(0, 2)
+	land_dust_instance.scale = Vector2(2, 2)
+	
+	# Add to the world (not the player) so it stays at ground level
+	player.get_parent().add_child(land_dust_instance)
+	
+	# Play animation once and auto-remove when done
+	land_dust_instance.play("default")
+	land_dust_instance.sprite_frames.set_animation_loop("default", false)
+	land_dust_instance.animation_finished.connect(func(): land_dust_instance.queue_free())
 
 
 func perform_double_jump() -> void:

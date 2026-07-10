@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://3j2ly0rlc6a" path="res://Scripts/keybinder.gd" id="1_cm1sw"]
 [ext_resource type="Script" uid="uid://67bld8gx8bfg" path="res://Scripts/keybinder_buttons.gd" id="2_ptycu"]
-[ext_resource type="Script" uid="uid://dne0savmwj0fi" path="res://Scenes/back_button.gd" id="3_776je"]
+[ext_resource type="Script" uid="uid://dne0savmwj0fi" path="res://Scripts/back_button.gd" id="3_776je"]
 
 [node name="Control" type="Control" unique_id=965454374]
 layout_mode = 3

@@ -12,14 +12,16 @@ var state_machine: StateMachinePlayer
 var movement: MovementPlayerComponent
 var animated_sprite: AnimatedSprite2D
 var sword_area: Area2D
+var sword_animated_sprite: AnimatedSprite2D
 
 
-func setup(p: CharacterBody2D, sm: Node, movement_comp: Node, sprite: AnimatedSprite2D, sword: Area2D) -> void:
+func setup(p: CharacterBody2D, sm: Node, movement_comp: Node, sprite: AnimatedSprite2D, sword: Area2D, sword_anim_sprite: AnimatedSprite2D) -> void:
 	player = p
 	state_machine = sm
 	movement = movement_comp
 	animated_sprite = sprite
 	sword_area = sword
+	sword_animated_sprite = sword_anim_sprite
 	sword_area.monitoring = false
 	sword_area.visible = false
 
@@ -45,12 +47,14 @@ func perform_attack() -> void:
 	attack_timer = ATTACK_DURATION
 	if player.is_on_floor():
 		player.velocity = Vector2.ZERO
-	animated_sprite.play("ATTACK")
+
 
 	sword_area.rotation = 0
 	sword_area.scale.x = 1.0
 	sword_area.visible = true
 	sword_area.set_deferred("monitoring", true)
+	sword_animated_sprite.play()
+	sword_animated_sprite.frame = 0
 
 	if Input.is_action_pressed("down"):
 		sword_area.rotation = PI / 2
@@ -73,6 +77,7 @@ func finish_attack_if_expired() -> void:
 func hide_sword() -> void:
 	sword_area.set_deferred("monitoring", false)
 	sword_area.visible = false
+	sword_animated_sprite.stop()
 
 
 func interrupt() -> void:

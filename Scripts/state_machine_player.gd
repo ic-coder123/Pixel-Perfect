@@ -1,8 +1,9 @@
 class_name StateMachinePlayer
 extends Node
 
-enum State {IDLE, RUN, AIR, WALL_SLIDE, DASH, ATTACK}
+enum State {IDLE, RUN, AIR, WALL_SLIDE, DASH, ATTACK, LANDED}
 var current_state = State.IDLE
+
 
 @onready var player: CharacterBody2D = get_parent()
 @onready var animated_sprite: AnimatedSprite2D = player.get_node("AnimatedSprite2D")
@@ -12,7 +13,7 @@ var current_state = State.IDLE
 
 func _ready() -> void:
 	movement.setup(player, self, animated_sprite)
-	combat.setup(player, self, movement, animated_sprite, player.get_node("Sword"))
+	combat.setup(player, self, movement, animated_sprite, player.get_node("Sword"), player.get_node("Sword/SwordSprite2D"))
 
 
 func _physics_process(delta: float) -> void:
@@ -39,6 +40,8 @@ func _physics_process(delta: float) -> void:
 		State.ATTACK:
 			process_attack_state(delta)
 
+		State.LANDED:
+			pass
 	player.move_and_slide()
 	handle_state_transitions()
 
@@ -95,6 +98,7 @@ func process_attack_state(delta: float) -> void:
 		movement.apply_gravity(delta)
 	combat.tick_attack(delta)
 	movement.handle_horizontal_movement(delta)
+
 
 
 func handle_state_transitions() -> void:

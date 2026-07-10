@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://djx5l78n0nw51"]
 
 [ext_resource type="Texture2D" uid="uid://bkbk28siyk5fr" path="res://sprites/heart.png" id="1_mxkyl"]
-[ext_resource type="Script" uid="uid://caa8s01kwi51v" path="res://Scenes/player_health.gd" id="2_t0jn1"]
+[ext_resource type="Script" uid="uid://caa8s01kwi51v" path="res://Scripts/player_health.gd" id="2_t0jn1"]
 
 [node name="CanvasLayer" type="CanvasLayer" unique_id=483424100]
 
