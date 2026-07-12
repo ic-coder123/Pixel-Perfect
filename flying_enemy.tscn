@@ -1,17 +1,20 @@
-[gd_scene format=3 uid="uid://85vtydi7dquq"]
+[gd_scene format=3 uid="uid://cmta4yokv3584"]
 
-[ext_resource type="Script" uid="uid://qxrr0gtet51v" path="res://Scripts/starter_enemy.gd" id="1_dccc1"]
-[ext_resource type="Texture2D" uid="uid://bg716ma0kjjkr" path="res://sprites/Starter-Enemy.png" id="2_dccc1"]
+[ext_resource type="Script" uid="uid://nweeshjqoamb" path="res://Scripts/flying_enemy.gd" id="1_2t4jl"]
+[ext_resource type="Texture2D" uid="uid://bg716ma0kjjkr" path="res://sprites/Starter-Enemy.png" id="2_ve0v3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qi2p4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1f0kj"]
 size = Vector2(20.51314, 21.034313)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ggnaw"]
+radius = 48.89558
+
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1825732302 groups=["enemy"]]
 position = Vector2(-1, -1)
 scale = Vector2(3, 3)
-script = ExtResource("1_dccc1")
+script = ExtResource("1_2t4jl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=259559101]
 position = Vector2(10, 10)
@@ -21,7 +24,7 @@ shape = SubResource("RectangleShape2D_qi2p4")
 texture_filter = 1
 position = Vector2(10, 10.000001)
 scale = Vector2(0.3125, 0.31250006)
-texture = ExtResource("2_dccc1")
+texture = ExtResource("2_ve0v3")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=2143186558]
 
@@ -30,17 +33,14 @@ position = Vector2(10.000001, 10.000001)
 scale = Vector2(1.03, 1.03)
 shape = SubResource("RectangleShape2D_1f0kj")
 
-[node name="dash_initiater" type="RayCast2D" parent="." unique_id=1890419185]
-position = Vector2(10, 10)
-target_position = Vector2(46.666668, 0)
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1539690735]
 
-[node name="wall_detector" type="RayCast2D" parent="." unique_id=1375972798]
-position = Vector2(-6.333334, 10)
-target_position = Vector2(37.333336, 0.666667)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1216799560]
+position = Vector2(10, 9.666667)
+shape = SubResource("CircleShape2D_ggnaw")
 
-[node name="edge_detector" type="RayCast2D" parent="." unique_id=468454229]
-position = Vector2(10, 1)
-target_position = Vector2(0, 27)
-collide_with_areas = true
+[node name="ShootTimer" type="Timer" parent="." unique_id=1205437151]
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=1069389981]
 
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

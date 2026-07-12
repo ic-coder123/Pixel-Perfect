@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bubmde4vievl8" path="res://guide.tscn" id="5_p70al"]
 [ext_resource type="Texture2D" uid="uid://laxqlx4t76b7" path="res://sprites/DirtTilsetRemastered.png" id="5_y7y61"]
 [ext_resource type="PackedScene" uid="uid://85vtydi7dquq" path="res://Scenes/starter-enemy.tscn" id="6_45d1s"]
+[ext_resource type="PackedScene" uid="uid://cmta4yokv3584" path="res://flying_enemy.tscn" id="10_kn06e"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_y7y61"]
 
@@ -155,5 +156,8 @@ position = Vector2(-3273, 600)
 
 [node name="Spikes6" parent="." unique_id=1959676616 instance=ExtResource("2_q2d71")]
 position = Vector2(-2606, -76)
+
+[node name="Flying_Enemy" parent="." unique_id=1381441422 instance=ExtResource("10_kn06e")]
+position = Vector2(-4169, 2)
 
 [editable path="DeathZone"]
