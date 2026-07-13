@@ -13,6 +13,7 @@ var dash_initiater: RayCast2D
 var wall_detector: RayCast2D
 var edge_detector: RayCast2D
 var detection_area: Area2D
+var projectile_scene = preload("res://Scenes/enemy_projectile.tscn")
 var shoot_timer: Timer
 var projectile_spawn: Marker2D
 
