@@ -158,6 +158,7 @@ position = Vector2(-3273, 600)
 position = Vector2(-2606, -76)
 
 [node name="Flying_Enemy" parent="." unique_id=1381441422 instance=ExtResource("10_kn06e")]
-position = Vector2(-4169, 2)
+position = Vector2(-4062, -197)
+DETECTION_RADIUS = 200.0
 
 [editable path="DeathZone"]

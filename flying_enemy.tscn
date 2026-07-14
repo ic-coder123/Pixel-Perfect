@@ -15,6 +15,8 @@ radius = 48.89558
 position = Vector2(-1, -1)
 scale = Vector2(3, 3)
 script = ExtResource("1_2t4jl")
+DETECTION_RADIUS = 600.0
+PATROL_RADIUS = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=259559101]
 position = Vector2(10, 10)

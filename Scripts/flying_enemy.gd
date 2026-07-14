@@ -3,6 +3,7 @@ extends "res://Scripts/enemy.gd"
 # Flying enemy specific properties
 @export var SPEED := 150.0
 @export var DETECTION_RADIUS := 500.0
+@export var EXPANDED_RADIUS_MULTIPLIER := 2.0
 @export var SHOOT_COOLDOWN := 1.5
 @export var PROJECTILE_SPEED := 300.0
 @export var TRACKING_SPEED := 200.0
@@ -14,6 +15,9 @@ var player_position := Vector2.ZERO
 var patrol_center := Vector2.ZERO
 var patrol_angle := 0.0
 var patrol_direction := 1.0
+var _detection_collision_shape: CollisionShape2D
+var _base_detection_radius := 0.0
+var _player_node: Node = null
 
 func _ready() -> void:
 	super()  # Call base class _ready() to initialize nodes and add to group
@@ -22,6 +26,11 @@ func _ready() -> void:
 	if detection_area:
 		detection_area.connect("body_entered", Callable(self, "_on_detection_area_body_entered"))
 		detection_area.connect("body_exited", Callable(self, "_on_detection_area_body_exited"))
+
+		# Store reference to the collision shape and read its current radius as the base
+		_detection_collision_shape = detection_area.get_node_or_null("CollisionShape2D")
+		if _detection_collision_shape and _detection_collision_shape.shape is CircleShape2D:
+			_base_detection_radius = _detection_collision_shape.shape.radius
 
 	if shoot_timer:
 		shoot_timer.wait_time = SHOOT_COOLDOWN
@@ -36,8 +45,9 @@ func _handle_movement(delta: float) -> void:
 	# Flying enemies don't use gravity
 	velocity.y = 0
 
-	if player_detected and player_position != Vector2.ZERO:
-		# Track player
+	if player_detected and _player_node:
+		# Continuously update player position so we chase the current location
+		player_position = _player_node.global_position
 		var direction_to_player = (player_position - global_position).normalized()
 		velocity = direction_to_player * TRACKING_SPEED
 	else:
@@ -61,8 +71,13 @@ func _handle_detection(delta: float) -> void:
 func _on_detection_area_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		player_detected = true
+		_player_node = body
 		player_position = body.global_position
 		_on_player_detected()
+
+		# Expand detection radius so the player can't easily run away
+		if _detection_collision_shape and _detection_collision_shape.shape is CircleShape2D:
+			_detection_collision_shape.shape.radius = _base_detection_radius * EXPANDED_RADIUS_MULTIPLIER
 
 		# Start shooting if timer is stopped (not already running)
 		if shoot_timer and shoot_timer.is_stopped():
@@ -71,8 +86,13 @@ func _on_detection_area_body_entered(body: Node) -> void:
 func _on_detection_area_body_exited(body: Node) -> void:
 	if body.is_in_group("player"):
 		player_detected = false
+		_player_node = null
 		player_position = Vector2.ZERO
 		_on_player_lost()
+
+		# Shrink detection radius back to base size
+		if _detection_collision_shape and _detection_collision_shape.shape is CircleShape2D:
+			_detection_collision_shape.shape.radius = _base_detection_radius
 
 func _on_shoot_timer_timeout() -> void:
 	_shoot_projectile()
