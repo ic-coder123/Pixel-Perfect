@@ -48,8 +48,11 @@ func _handle_movement(delta: float) -> void:
 	if player_detected and _player_node:
 		# Continuously update player position so we chase the current location
 		player_position = _player_node.global_position
-		var direction_to_player = (player_position - global_position).normalized()
-		velocity = direction_to_player * TRACKING_SPEED
+		var diff = player_position - global_position
+		if diff.length_squared() > 0:
+			velocity = diff.normalized() * TRACKING_SPEED
+		else:
+			velocity = Vector2.ZERO
 	else:
 		# Circular patrol behavior when no player detected
 		patrol_angle += delta * patrol_direction * 0.5
@@ -57,8 +60,11 @@ func _handle_movement(delta: float) -> void:
 		var target_position = patrol_center + patrol_offset
 
 		# Move towards patrol target
-		var direction_to_target = (target_position - global_position).normalized()
-		velocity = direction_to_target * PATROL_SPEED
+		var diff = target_position - global_position
+		if diff.length_squared() > 0:
+			velocity = diff.normalized() * PATROL_SPEED
+		else:
+			velocity = Vector2.ZERO
 
 		# Occasionally change patrol direction
 		if randf() < 0.01:  # 1% chance per frame

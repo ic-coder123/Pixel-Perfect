@@ -61,7 +61,27 @@ func take_damage(amount: int) -> void:
 	tween.tween_property(sprite, "modulate", original_modulate, 0.2)
 
 	if health <= 0:
+		_spawn_death_particles()
 		queue_free()
+
+
+func _spawn_death_particles() -> void:
+	var particle_texture = preload("res://assets/generated/death_particle_frame_0.png")
+	var parent_node = get_parent()
+	for i in 8:
+		var sprite_node = Sprite2D.new()
+		sprite_node.texture = particle_texture
+		sprite_node.global_position = global_position + Vector2(randf_range(-8, 8), randf_range(-8, 8))
+		sprite_node.scale = Vector2(randf_range(1.0, 2.5), randf_range(1.0, 2.5))
+		sprite_node.modulate = Color(randf_range(0.8, 1.0), randf_range(0.3, 0.6), 0.0, 1.0)
+		parent_node.add_child(sprite_node)
+
+		var tween = parent_node.create_tween()
+		tween.set_parallel(true)
+		tween.tween_property(sprite_node, "position", sprite_node.position + Vector2(randf_range(-40, 40), randf_range(-60, -20)), 0.4).set_ease(Tween.EASE_OUT)
+		tween.tween_property(sprite_node, "modulate:a", 0.0, 0.4)
+		tween.tween_property(sprite_node, "scale", Vector2.ZERO, 0.4)
+		tween.finished.connect(sprite_node.queue_free)
 
 func _on_hitbox_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):

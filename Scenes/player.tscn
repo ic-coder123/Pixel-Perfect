@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bd454biissbyq" path="res://Scripts/state_machine_player.gd" id="5_fkybt"]
 [ext_resource type="Script" uid="uid://dikgav8gb7fge" path="res://Scripts/movement_player_component.gd" id="6_x3wgy"]
 [ext_resource type="Script" uid="uid://cikuee6qbxx8m" path="res://Scripts/combat_player_component.gd" id="7_3smsa"]
+[ext_resource type="Script" uid="uid://dcl32ml3u875f" path="res://Scripts/camera_shake.gd" id="8_4flbx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vgqql"]
 atlas = ExtResource("2_vgqql")
@@ -171,6 +172,7 @@ position = Vector2(-2, -3)
 shape = SubResource("RectangleShape2D_6t5aa")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1290275261]
+script = ExtResource("8_4flbx")
 offset = Vector2(2, 2)
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true

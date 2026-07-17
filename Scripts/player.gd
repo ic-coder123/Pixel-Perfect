@@ -38,6 +38,11 @@ func take_damage(amount: int, source_position: Vector2 = Vector2.ZERO) -> void:
 	took_damage.emit()
 	invulnerability_timer = INVULNERABILITY_DURATION
 
+	# Screen shake on damage
+	var camera = get_node_or_null("Camera2D")
+	if camera and camera.has_method("add_trauma"):
+		camera.add_trauma(0.5)
+
 	var knock_dir = sign(global_position.x - source_position.x) if source_position != Vector2.ZERO else -state_machine.movement.facing_direction
 	if knock_dir == 0:
 		knock_dir = - state_machine.movement.facing_direction

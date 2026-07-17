@@ -105,6 +105,14 @@ func handle_sword_hit(body: Node) -> void:
 
 	var target = body
 
+	# Screen shake on hit
+	var camera = player.get_node_or_null("Camera2D")
+	if camera and camera.has_method("add_trauma"):
+		camera.add_trauma(0.3)
+
+	# Hit-stop: brief freeze frame for impact feel
+	if target.is_in_group("enemy") or target.is_in_group("hazard") or target.has_method("take_damage"):
+		_hit_stop(0.05)
 
 	if is_down_attack():
 		if target.is_in_group("enemy") or target.is_in_group("hazard") or target.has_method("take_damage"):
@@ -112,3 +120,9 @@ func handle_sword_hit(body: Node) -> void:
 
 	if target.has_method("take_damage"):
 		target.take_damage(SWORD_DAMAGE)
+
+
+func _hit_stop(duration: float) -> void:
+	Engine.time_scale = 0.0
+	await get_tree().create_timer(duration, true, false, true).timeout
+	Engine.time_scale = 1.0
