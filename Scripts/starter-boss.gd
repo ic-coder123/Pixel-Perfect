@@ -35,6 +35,11 @@ func _physics_process(delta: float) -> void:
 		State.COOLDOWN:
 			process_cooldown_state(delta)
 	
+	# Safety check: prevent normalization errors from zero/NaN velocity
+	if not velocity.is_finite() or velocity.is_zero_approx():
+		velocity = Vector2.ZERO
+		print("DEBUG: Boss invalid velocity reset to ZERO")
+	
 	move_and_slide()
 
 # This is the function your player is looking for!

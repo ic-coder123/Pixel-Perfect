@@ -73,5 +73,4 @@ func _update_button_text(button: Button, action: String) -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+

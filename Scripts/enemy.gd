@@ -17,6 +17,9 @@ var projectile_scene = preload("res://Scenes/enemy_projectile.tscn")
 var shoot_timer: Timer
 var projectile_spawn: Marker2D
 
+# Flag set immediately when health hits 0 (before queue_free defers deletion)
+var _pending_deletion := false
+
 func _ready() -> void:
 	add_to_group("enemy")
 	# Register spawn data so Main can recreate this node after it is queue_free'd
@@ -31,23 +34,43 @@ func _ready() -> void:
 	shoot_timer = get_node_or_null("ShootTimer")
 	projectile_spawn = get_node_or_null("Marker2D")
 
+func _safe_move_and_slide() -> void:
+	# Prevent normalization errors from zero/NaN/Infinity velocity
+	if not velocity.is_finite():
+		velocity = Vector2.ZERO
+
+	# Skip move_and_slide entirely when velocity is zero or the node
+	# is pending deletion (e.g. killed mid-frame). Godot's internal
+	# normalization will warn on zero vectors, and a dying node's
+	# velocity can become stale/invalid on the next frame.
+	if velocity.is_zero_approx() or _pending_deletion or is_queued_for_deletion():
+		return
+
+	move_and_slide()
+
 func _physics_process(delta: float) -> void:
+	# Skip all physics processing if this node is pending deletion
+	# (e.g. killed this frame). Prevents Godot's move_and_slide()
+	# from warning about zero/NaN velocity on a dying node.
+	if _pending_deletion or is_queued_for_deletion():
+		return
+
 	_handle_movement(delta)
 	_handle_detection(delta)
-	move_and_slide()
+	_safe_move_and_slide()
 
 # Virtual methods - subclasses can override these
 func _handle_movement(delta: float) -> void:
-	pass  # Base implementation does nothing
+	pass # Base implementation does nothing
 
 func _handle_detection(delta: float) -> void:
-	pass  # Base implementation does nothing
+	pass # Base implementation does nothing
 
 func _on_player_detected() -> void:
-	pass  # Hook for when player is detected
+	pass # Hook for when player is detected
 
 func _on_player_lost() -> void:
-	pass  # Hook for when player is no longer detected
+	pass # Hook for when player is no longer detected
 
 func take_damage(amount: int) -> void:
 	health -= amount
@@ -61,6 +84,7 @@ func take_damage(amount: int) -> void:
 	tween.tween_property(sprite, "modulate", original_modulate, 0.2)
 
 	if health <= 0:
+		_pending_deletion = true
 		_spawn_death_particles()
 		queue_free()
 

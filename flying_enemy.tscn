@@ -14,6 +14,7 @@ radius = 48.89558
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1825732302 groups=["enemy"]]
 position = Vector2(-1, -1)
 scale = Vector2(3, 3)
+motion_mode = 1
 script = ExtResource("1_2t4jl")
 DETECTION_RADIUS = 600.0
 PATROL_RADIUS = 150.0

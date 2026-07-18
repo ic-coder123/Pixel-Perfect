@@ -49,8 +49,13 @@ func _handle_movement(delta: float) -> void:
 		# Continuously update player position so we chase the current location
 		player_position = _player_node.global_position
 		var diff = player_position - global_position
-		if diff.length_squared() > 0:
-			velocity = diff.normalized() * TRACKING_SPEED
+		if not diff.is_zero_approx():
+			var new_velocity = diff.normalized() * TRACKING_SPEED
+			if not new_velocity.is_finite():
+				print("DEBUG: Invalid chase velocity - diff: ", diff, " new_velocity: ", new_velocity)
+				velocity = Vector2.ZERO
+			else:
+				velocity = new_velocity
 		else:
 			velocity = Vector2.ZERO
 	else:
@@ -61,8 +66,13 @@ func _handle_movement(delta: float) -> void:
 
 		# Move towards patrol target
 		var diff = target_position - global_position
-		if diff.length_squared() > 0:
-			velocity = diff.normalized() * PATROL_SPEED
+		if not diff.is_zero_approx():
+			var new_velocity = diff.normalized() * PATROL_SPEED
+			if not new_velocity.is_finite():
+				print("DEBUG: Invalid patrol velocity - diff: ", diff, " new_velocity: ", new_velocity)
+				velocity = Vector2.ZERO
+			else:
+				velocity = new_velocity
 		else:
 			velocity = Vector2.ZERO
 
@@ -108,7 +118,7 @@ func _shoot_projectile() -> void:
 		return
 
 	# Create projectile instance
-	var projectile_scene = load("res://Scenes/enemy_projectile.tscn")
+	projectile_scene = load("res://Scenes/enemy_projectile.tscn")
 	if projectile_scene:
 		var projectile = projectile_scene.instantiate()
 		get_parent().add_child(projectile)
