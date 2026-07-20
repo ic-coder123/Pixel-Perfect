@@ -75,6 +75,8 @@ func _on_player_lost() -> void:
 func take_damage(amount: int) -> void:
 	health -= amount
 	print("Enemy took damage! Health: ", health)
+	# Debugging print statement
+	print("Damage amount: ", amount)
 
 	# Flash red effect
 	var original_modulate = sprite.modulate

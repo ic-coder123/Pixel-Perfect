@@ -1,8 +1,8 @@
 extends Camera2D
 
 # Screen shake parameters
-@export var SHAKE_DECAY_RATE := 8.0
-@export var SHAKE_SCALE := 8.0
+@export var SHAKE_DECAY_RATE := 10.0
+@export var SHAKE_SCALE := 12.0
 
 var _trauma := 0.0
 var _shake_offset := Vector2.ZERO

@@ -10,6 +10,12 @@ extends "res://Scripts/enemy.gd"
 @export var PATROL_RADIUS := 200.0
 @export var PATROL_SPEED := 80.0
 
+# Separation / personal-space behavior
+@export var MIN_SEPARATION_DISTANCE := 90.0
+@export var RETREAT_SPEED := 180.0
+@export var RETREAT_DELAY := 0.35
+@export var RETREAT_HOLD_TIME := 0.5
+
 var player_detected := false
 var player_position := Vector2.ZERO
 var patrol_center := Vector2.ZERO
@@ -18,6 +24,9 @@ var patrol_direction := 1.0
 var _detection_collision_shape: CollisionShape2D
 var _base_detection_radius := 0.0
 var _player_node: Node = null
+var _too_close_timer := 0.0
+var _is_retreating := false
+var _retreat_timer := 0.0
 
 func _ready() -> void:
 	super()  # Call base class _ready() to initialize nodes and add to group
@@ -49,15 +58,44 @@ func _handle_movement(delta: float) -> void:
 		# Continuously update player position so we chase the current location
 		player_position = _player_node.global_position
 		var diff = player_position - global_position
-		if not diff.is_zero_approx():
-			var new_velocity = diff.normalized() * TRACKING_SPEED
-			if not new_velocity.is_finite():
-				print("DEBUG: Invalid chase velocity - diff: ", diff, " new_velocity: ", new_velocity)
-				velocity = Vector2.ZERO
+		var distance := diff.length()
+
+		if _is_retreating:
+			# Back away from the player for a fixed duration, then resume chasing
+			_retreat_timer -= delta
+			if _retreat_timer <= 0.0:
+				_is_retreating = false
+				_too_close_timer = 0.0
+			# Move away from player regardless of distance while retreating
+			if not diff.is_zero_approx():
+				var new_velocity = -diff.normalized() * RETREAT_SPEED
+				if not new_velocity.is_finite():
+					print("DEBUG: Invalid retreat velocity - diff: ", diff, " new_velocity: ", new_velocity)
+					velocity = Vector2.ZERO
+				else:
+					velocity = new_velocity
 			else:
-				velocity = new_velocity
+				velocity = Vector2.ZERO
 		else:
-			velocity = Vector2.ZERO
+			# Track how long we've been inside the personal-space bubble
+			if distance < MIN_SEPARATION_DISTANCE:
+				_too_close_timer += delta
+				if _too_close_timer >= RETREAT_DELAY:
+					_is_retreating = true
+					_retreat_timer = RETREAT_HOLD_TIME
+			else:
+				_too_close_timer = max(_too_close_timer - delta, 0.0)
+
+			# Keep approaching (player can still take melee damage during the delay)
+			if not diff.is_zero_approx():
+				var new_velocity = diff.normalized() * TRACKING_SPEED
+				if not new_velocity.is_finite():
+					print("DEBUG: Invalid chase velocity - diff: ", diff, " new_velocity: ", new_velocity)
+					velocity = Vector2.ZERO
+				else:
+					velocity = new_velocity
+			else:
+				velocity = Vector2.ZERO
 	else:
 		# Circular patrol behavior when no player detected
 		patrol_angle += delta * patrol_direction * 0.5
@@ -109,6 +147,11 @@ func _on_detection_area_body_exited(body: Node) -> void:
 		# Shrink detection radius back to base size
 		if _detection_collision_shape and _detection_collision_shape.shape is CircleShape2D:
 			_detection_collision_shape.shape.radius = _base_detection_radius
+
+		# Reset retreat state so the enemy doesn't hold onto it on next detection
+		_is_retreating = false
+		_retreat_timer = 0.0
+		_too_close_timer = 0.0
 
 func _on_shoot_timer_timeout() -> void:
 	_shoot_projectile()

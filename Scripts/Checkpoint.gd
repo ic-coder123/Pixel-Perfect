@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var RESTORE_HEALTH := 20
+@export var RESTORE_HEALTH := 5
 
 # when the player enters this checkpoint area we register its position
 

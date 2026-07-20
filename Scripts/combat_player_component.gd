@@ -1,7 +1,7 @@
 class_name CombatPlayerComponent
 extends Node
 
-@export var ATTACK_DURATION := 0.3
+@export var ATTACK_DURATION := 0.5
 @export var SWORD_DAMAGE := 10
 
 var attack_timer := 0.0
@@ -105,14 +105,17 @@ func handle_sword_hit(body: Node) -> void:
 
 	var target = body
 
+	# Debugging print statement
+	print("Attempting to shake the camera and apply hit stop.")
+
 	# Screen shake on hit
 	var camera = player.get_node_or_null("Camera2D")
 	if camera and camera.has_method("add_trauma"):
-		camera.add_trauma(0.3)
+		camera.add_trauma(0.6)
 
 	# Hit-stop: brief freeze frame for impact feel
 	if target.is_in_group("enemy") or target.is_in_group("hazard") or target.has_method("take_damage"):
-		_hit_stop(0.05)
+		_hit_stop(0.12)
 
 	if is_down_attack():
 		if target.is_in_group("enemy") or target.is_in_group("hazard") or target.has_method("take_damage"):
@@ -120,9 +123,11 @@ func handle_sword_hit(body: Node) -> void:
 
 	if target.has_method("take_damage"):
 		target.take_damage(SWORD_DAMAGE)
+		# Debugging print statement
+		print("Damage dealt to target: ", target.name, " Damage amount: ", SWORD_DAMAGE)
 
 
 func _hit_stop(duration: float) -> void:
 	Engine.time_scale = 0.0
-	await get_tree().create_timer(duration, true, false, true).timeout
+	await get_tree().create_timer(duration, true, true, true).timeout
 	Engine.time_scale = 1.0

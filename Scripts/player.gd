@@ -1,6 +1,8 @@
 extends CharacterBody2D
 var unlocked_abilities
 @export var health := 5
+@export var max_health := 5
+@export var mana := 0
 var invulnerability_timer := 0.0
 
 @export var INVULNERABILITY_DURATION := 1.5
@@ -25,7 +27,7 @@ func _ready() -> void:
 
 func _on_sword_hit(body: Node) -> void:
 	state_machine.combat.handle_sword_hit(body)
-
+	mana += 1
 
 func respawn() -> void:
 	Main.respawn_player(self)
@@ -41,7 +43,10 @@ func take_damage(amount: int, source_position: Vector2 = Vector2.ZERO) -> void:
 	# Screen shake on damage
 	var camera = get_node_or_null("Camera2D")
 	if camera and camera.has_method("add_trauma"):
-		camera.add_trauma(0.5)
+		camera.add_trauma(0.8)
+
+	# Hit stop on player damage
+	_hit_stop(0.1)
 
 	var knock_dir = sign(global_position.x - source_position.x) if source_position != Vector2.ZERO else -state_machine.movement.facing_direction
 	if knock_dir == 0:
@@ -60,6 +65,12 @@ func take_damage(amount: int, source_position: Vector2 = Vector2.ZERO) -> void:
 		respawn()
 
 
+func _hit_stop(duration: float) -> void:
+	Engine.time_scale = 0.0
+	await get_tree().create_timer(duration, true, true, true).timeout
+	Engine.time_scale = 1.0
+
+
 func _process(delta: float) -> void:
 	invulnerability_timer = max(invulnerability_timer - delta, 0.0)
 
@@ -76,3 +87,8 @@ func _process(delta: float) -> void:
 			var focused = get_viewport().gui_get_focus_owner()
 			if focused:
 				focused.release_focus()
+
+	if Input.is_action_just_pressed("heal") and mana >= 2 and health < max_health:
+		health += 1
+		mana -= 2
+		print("Healed! Health: ", health, " Mana: ", mana)

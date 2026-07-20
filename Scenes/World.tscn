@@ -86,6 +86,15 @@ texture = ExtResource("1_y7y61")
 
 [node name="Parallax2D" type="Parallax2D" parent="Background" unique_id=588351993]
 
+[node name="Background2" type="Sprite2D" parent="." unique_id=1704637138]
+texture_filter = 1
+position = Vector2(-2000.4535, -313.4533)
+scale = Vector2(1.875886, 1.8661199)
+texture = ExtResource("1_y7y61")
+flip_h = true
+
+[node name="Parallax2D" type="Parallax2D" parent="Background2" unique_id=1858020905]
+
 [node name="Background3" type="Sprite2D" parent="." unique_id=912148900]
 texture_filter = 1
 position = Vector2(-3900.9998, -308)

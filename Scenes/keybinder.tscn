@@ -159,3 +159,23 @@ offset_right = 623.0
 offset_bottom = 579.0
 text = "back to main menu"
 script = ExtResource("3_776je")
+
+[node name="heal_button" type="Button" parent="." unique_id=2126465646 node_paths=PackedStringArray("button_name")]
+layout_mode = 0
+offset_left = 672.0
+offset_top = 105.0
+offset_right = 866.0
+offset_bottom = 136.0
+text = "/"
+script = ExtResource("2_ptycu")
+input_id = "heal"
+button_name = NodePath(".")
+
+[node name="Label" type="Label" parent="heal_button" unique_id=1912084212]
+layout_mode = 0
+offset_left = -81.0
+offset_top = 6.0
+offset_right = -41.0
+offset_bottom = 29.0
+text = "Heal
+"
