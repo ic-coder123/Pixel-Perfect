@@ -6,8 +6,8 @@ extends CharacterBody2D
 
 
 # --- Constants ---
-@export var LUNGE_SPEED := 600.0
-@export var LUNGE_DURATION := 0.5
+@export var LUNGE_SPEED := 1200
+@export var LUNGE_DURATION := 0.6
 @export var ATTACK_COOLDOWN := 2.0
 @export var STUN_DURATION := 1.0
 

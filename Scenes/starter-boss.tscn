@@ -18,7 +18,7 @@ animations = [{
 size = Vector2(128, 127)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7d0rj"]
-size = Vector2(124, 129)
+size = Vector2(130, 129.5)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=954353970]
 script = ExtResource("2_m7j76")
@@ -29,10 +29,7 @@ animation = &"IDLE"
 autoplay = "IDLE"
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=261988766]
-position = Vector2(-1.9999999, 2.0000038)
-rotation = 0.017096136
-scale = Vector2(10, 10)
-target_position = Vector2(-76.992165, 1.116367)
+target_position = Vector2(800, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=927858536]
 position = Vector2(-1, -0.5)
@@ -41,7 +38,7 @@ shape = SubResource("RectangleShape2D_ggnaw")
 [node name="Hitbox" type="Area2D" parent="." unique_id=328998990]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=241552826]
-position = Vector2(1, 0.5)
+position = Vector2(-1, -0.75)
 shape = SubResource("RectangleShape2D_7d0rj")
 
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
