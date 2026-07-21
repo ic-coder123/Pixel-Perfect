@@ -13,3 +13,13 @@ Guide: What I need to say actually is that you're whole family got kidnapped by 
 	Guide: NO of course not... Um anyways, so yeah you have to go find them.
 	You: Sure... I guess?
 	[end_timeline]
+- Are you like, actually gonna give me some instructions? Like I just joined the game.
+	Guide: Just joined the game? What game?
+	You: You know, this is a game.
+	Guide: Oh! Right! Sorry, I'm still getting used to this whole "player" thing. 
+	You: Bro what?
+	Guide: Use {Main.key_left_text}, {Main.key_right_text}, {Main.key_down_text}, {Main.key_up_text} to move around the world. Press {Main.key_dash_text} to dash and {Main.key_interact_text} to interact with stuff.
+	Guide: Try to avoid the boss's attacks and watch out for those floating enemies that drop power-ups!
+	You: Got it. Thanks for the help.
+	Guide: Good luck! And don't forget to check the settings if you need to adjust anything.
+	[end_timeline]

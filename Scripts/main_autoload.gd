@@ -80,3 +80,29 @@ func load_input_data() -> void:
 				var events = config.get_value("input", action)
 				for event in events:
 					InputMap.action_add_event(action, event)
+
+# ------------------------------------------------------------------
+# Keybind variable properties for use in Dialogic dialogue
+# ------------------------------------------------------------------
+# Dialogic's {Main.key_left_text} notation resolves these at runtime
+# by accessing the property on the Main autoload. This is immune to
+# Dialogic's variable reset when timelines start.
+
+var key_left_text: String:
+	get: return _get_key_text_for_action("left")
+var key_right_text: String:
+	get: return _get_key_text_for_action("right")
+var key_up_text: String:
+	get: return _get_key_text_for_action("up")
+var key_down_text: String:
+	get: return _get_key_text_for_action("down")
+var key_dash_text: String:
+	get: return _get_key_text_for_action("dash")
+var key_interact_text: String:
+	get: return _get_key_text_for_action("interact")
+
+func _get_key_text_for_action(action: String) -> String:
+	var events := InputMap.action_get_events(action)
+	if events.is_empty():
+		return "Unbound"
+	return events[0].as_text()
