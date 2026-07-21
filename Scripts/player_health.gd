@@ -4,23 +4,16 @@ extends TextureProgressBar
 
 func _ready() -> void:
 	if player:
-		
-		
-		
-		value = player.health
+		value = player.display_health
 		print("Health bar initialized. Max: ", max_value, " Current: ", value)
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if player:
-		# Continuously sync value to handle cases where signals might be missed 
-		# or health is modified directly (like at checkpoints)
-		if value != player.health:
-			value = player.health
-			print("Health bar visual synced to: ", value)
+		value = player.display_health
 
 
 
 func _took_damage() -> void:
-	value = player.health
+	value = player.display_health
 	print("Health bar updated. Current health: ", value)

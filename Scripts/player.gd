@@ -17,6 +17,13 @@ var invulnerability_timer := 0.0
 @export var HEAL_MANA_COST := 2
 var heal_timer := 0.0
 var heal_mana_consumed := false
+var heal_start_mana := 0
+var heal_start_health := 0
+
+## Smooth display values for UI bars
+var display_mana: float = 0.0
+var display_health: float = 5.0
+const DISPLAY_LERP_SPEED := 15.0
 
 signal took_damage
 
@@ -31,6 +38,8 @@ func _ready() -> void:
 	if not is_in_group("player"):
 		add_to_group("player")
 	keybinder.visible = false
+	display_mana = float(mana)
+	display_health = float(health)
 
 
 func _on_sword_hit(body: Node) -> void:
@@ -92,6 +101,8 @@ func _handle_heal_input(delta: float) -> void:
 func _start_healing() -> void:
 	heal_timer = 0.0
 	heal_mana_consumed = false
+	heal_start_mana = mana
+	heal_start_health = health
 	state_machine.current_state = state_machine.State.HEALING
 
 
@@ -107,6 +118,8 @@ func _tick_healing(delta: float) -> void:
 		health += 1
 		heal_timer -= HEAL_COMPLETE_TIME
 		heal_mana_consumed = false
+		heal_start_mana = mana
+		heal_start_health = health
 		print("Healed! Health: ", health, " Mana: ", mana)
 		
 		if mana < HEAL_MANA_COST or health >= max_health:
@@ -147,3 +160,20 @@ func _process(delta: float) -> void:
 				focused.release_focus()
 
 	_handle_heal_input(delta)
+	_update_display_values(delta)
+
+
+func _update_display_values(delta: float) -> void:
+	var target_display_mana: float
+	var target_display_health: float
+	
+	if is_instance_valid(state_machine) and state_machine.current_state == state_machine.State.HEALING:
+		var progress := float(min(heal_timer / HEAL_COMPLETE_TIME, 1.0))
+		target_display_mana = float(heal_start_mana) - float(HEAL_MANA_COST) * progress
+		target_display_health = float(heal_start_health) + 1.0 * progress
+	else:
+		target_display_mana = float(mana)
+		target_display_health = float(health)
+	
+	display_mana = lerp(display_mana, target_display_mana, DISPLAY_LERP_SPEED * delta)
+	display_health = lerp(display_health, target_display_health, DISPLAY_LERP_SPEED * delta)

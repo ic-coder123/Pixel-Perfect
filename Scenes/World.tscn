@@ -161,6 +161,7 @@ position = Vector2(-2606, -76)
 [node name="Flying_Enemy" parent="." unique_id=1381441422 instance=ExtResource("10_kn06e")]
 position = Vector2(-4062, -197)
 DETECTION_RADIUS = 200.0
+MIN_SEPARATION_DISTANCE = 120.0
 
 [node name="CharacterBody2D" parent="." unique_id=954353970 instance=ExtResource("11_7yo87")]
 position = Vector2(-260, 310)
