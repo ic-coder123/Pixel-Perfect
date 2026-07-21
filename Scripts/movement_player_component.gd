@@ -200,7 +200,11 @@ func perform_wall_jump() -> void:
 
 
 func check_dash_input() -> bool:
-	return player.unlocked_abilities.get("dash", false) and Input.is_action_just_pressed("dash")
+	return (
+		player.unlocked_abilities.get("dash", false)
+		and Input.is_action_just_pressed("dash")
+		and state_machine.current_state != state_machine.State.HEALING
+	)
 
 
 func start_dash() -> void:

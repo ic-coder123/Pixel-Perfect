@@ -2,7 +2,7 @@ join Guide center
 Guide: Um... okay what was I supposed to say?
 [wait time="1.0"]
 Guide: Oh right, yeah yeah, press escape to open settings? Wait no that's for something else.
-Guide: What I need to say actually is that you're whole family got kidnapped by a bunch of shapes and you need to find'em.
+Guide: What I need to say actually is that your whole family got kidnapped by a bunch of shapes and you need to find'em.
 - OK!
 	Guide: ALL RIGHT!
 	Guide: GOOD LUCK!
@@ -19,7 +19,6 @@ Guide: What I need to say actually is that you're whole family got kidnapped by 
 	Guide: Oh! Right! Sorry, I'm still getting used to this whole "player" thing. 
 	You: Bro what?
 	Guide: Use {Main.key_left_text}, {Main.key_right_text}, {Main.key_down_text}, {Main.key_up_text} to move around the world. Press {Main.key_dash_text} to dash and {Main.key_interact_text} to interact with stuff.
-	Guide: Try to avoid the boss's attacks and watch out for those floating enemies that drop power-ups!
-	You: Got it. Thanks for the help.
-	Guide: Good luck! And don't forget to check the settings if you need to adjust anything.
+	You: I think I knew that, seeing I got here and interacted with you...
+	Guide: Hey, you're the one who asked.
 	[end_timeline]

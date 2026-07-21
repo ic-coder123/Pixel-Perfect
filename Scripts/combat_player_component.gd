@@ -39,6 +39,7 @@ func can_attack() -> bool:
 		state_machine.current_state != state_machine.State.ATTACK
 		and state_machine.current_state != state_machine.State.DASH
 		and state_machine.current_state != state_machine.State.WALL_SLIDE
+		and state_machine.current_state != state_machine.State.HEALING
 	)
 
 

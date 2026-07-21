@@ -1,7 +1,7 @@
 class_name StateMachinePlayer
 extends Node
 
-enum State {IDLE, RUN, AIR, WALL_SLIDE, DASH, ATTACK, LANDED}
+enum State {IDLE, RUN, AIR, WALL_SLIDE, DASH, ATTACK, LANDED, HEALING}
 var current_state = State.IDLE
 
 
@@ -42,6 +42,9 @@ func _physics_process(delta: float) -> void:
 
 		State.LANDED:
 			pass
+
+		State.HEALING:
+			process_healing_state(delta)
 	player.move_and_slide()
 	handle_state_transitions()
 
@@ -100,6 +103,13 @@ func process_attack_state(delta: float) -> void:
 	movement.handle_horizontal_movement(delta)
 
 
+func process_healing_state(_delta: float) -> void:
+	if player.is_on_floor():
+		player.velocity.x = move_toward(player.velocity.x, 0, movement.SPEED * movement.GROUND_FRICTION * _delta)
+	else:
+		movement.apply_gravity(_delta)
+
+
 
 func handle_state_transitions() -> void:
 	if not current_state == State.DASH:
@@ -124,3 +134,5 @@ func handle_state_transitions() -> void:
 			movement.finish_dash_if_expired()
 		State.ATTACK:
 			combat.finish_attack_if_expired()
+		State.HEALING:
+			pass

@@ -3,12 +3,20 @@ var unlocked_abilities
 @export var health := 5
 @export var max_health := 5
 @export var mana := 0
+@export var max_mana := 5
 var invulnerability_timer := 0.0
 
 @export var INVULNERABILITY_DURATION := 1.5
 @export var KNOCKBACK_HORIZONTAL := 500
 @export var KNOCKBACK_VERTICAL := -350
 @export var FLASH_LOOP_COUNT := 5
+
+## Healing state variables
+@export var HEAL_COMPLETE_TIME := 4.0
+@export_range(0.0, 1.0) var HEAL_COMMIT_PERCENT := 0.75
+@export var HEAL_MANA_COST := 2
+var heal_timer := 0.0
+var heal_mana_consumed := false
 
 signal took_damage
 
@@ -27,7 +35,7 @@ func _ready() -> void:
 
 func _on_sword_hit(body: Node) -> void:
 	state_machine.combat.handle_sword_hit(body)
-	mana += 1
+	mana = min(mana + 1, max_mana)
 
 func respawn() -> void:
 	Main.respawn_player(self)
@@ -65,6 +73,56 @@ func take_damage(amount: int, source_position: Vector2 = Vector2.ZERO) -> void:
 		respawn()
 
 
+func _handle_heal_input(delta: float) -> void:
+	if not is_instance_valid(state_machine):
+		return
+	
+	var healing: bool = state_machine.current_state == state_machine.State.HEALING
+	
+	if healing:
+		if Input.is_action_pressed("heal"):
+			_tick_healing(delta)
+		else:
+			_cancel_healing()
+	else:
+		if Input.is_action_pressed("heal") and mana >= HEAL_MANA_COST and health < max_health:
+			_start_healing()
+
+
+func _start_healing() -> void:
+	heal_timer = 0.0
+	heal_mana_consumed = false
+	state_machine.current_state = state_machine.State.HEALING
+
+
+func _tick_healing(delta: float) -> void:
+	heal_timer += delta
+	
+	if not heal_mana_consumed and heal_timer >= HEAL_COMPLETE_TIME * HEAL_COMMIT_PERCENT:
+		heal_mana_consumed = true
+		mana -= HEAL_MANA_COST
+		print("Heal mana committed. Mana: ", mana)
+	
+	if heal_timer >= HEAL_COMPLETE_TIME:
+		health += 1
+		heal_timer -= HEAL_COMPLETE_TIME
+		heal_mana_consumed = false
+		print("Healed! Health: ", health, " Mana: ", mana)
+		
+		if mana < HEAL_MANA_COST or health >= max_health:
+			state_machine.current_state = state_machine.State.IDLE
+
+
+func _cancel_healing() -> void:
+	if heal_mana_consumed:
+		print("Heal cancelled after commit — mana lost, no health gained.")
+	else:
+		print("Heal cancelled before commit — nothing lost.")
+	heal_timer = 0.0
+	heal_mana_consumed = false
+	state_machine.current_state = state_machine.State.IDLE
+
+
 func _hit_stop(duration: float) -> void:
 	Engine.time_scale = 0.0
 	await get_tree().create_timer(duration, true, true, true).timeout
@@ -88,7 +146,4 @@ func _process(delta: float) -> void:
 			if focused:
 				focused.release_focus()
 
-	if Input.is_action_just_pressed("heal") and mana >= 2 and health < max_health:
-		health += 1
-		mana -= 2
-		print("Healed! Health: ", health, " Mana: ", mana)
+	_handle_heal_input(delta)
